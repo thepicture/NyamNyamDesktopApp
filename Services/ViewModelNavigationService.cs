@@ -24,10 +24,20 @@ namespace NyamNyamDesktopApp.Services
 
         public void Navigate<T>()
         {
-            Navigate<T>(null);
+            bool isStackNotEmpty = NavigationJournal.Count > 0;
+            if (isStackNotEmpty)
+            {
+                bool isTryingToNavigateToSameType = NavigationJournal.Peek()
+                                                                .GetType() == typeof(T);
+                if (isTryingToNavigateToSameType)
+                {
+                    return;
+                }
+            }
+            NavigateWithParameter<T>(null);
         }
 
-        public void Navigate<T>(object obj)
+        public void NavigateWithParameter<T>(object obj)
         {
             if (obj == null)
             {

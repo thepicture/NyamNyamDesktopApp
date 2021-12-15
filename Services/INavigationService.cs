@@ -30,7 +30,7 @@ namespace NyamNyamDesktopApp.Services
         /// </summary>
         /// <typeparam name="T">The type to navigate to.</typeparam>
         /// <param name="obj">The constructor argument.</param>
-        void Navigate<T>(object obj);
+        void NavigateWithParameter<T>(object obj);
         /// <summary>
         /// Pops the peek of the navigation stack.
         /// </summary>
