@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NyamNyamDesktopApp
+namespace NyamNyamDesktopApp.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for DishView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class DishView : UserControl
     {
-        public MainWindow()
+        public DishView()
         {
             InitializeComponent();
         }

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using NyamNyamDesktopApp.Services;
+using NyamNyamDesktopApp.ViewsModels;
 using System.Windows;
 
 namespace NyamNyamDesktopApp
@@ -13,5 +9,15 @@ namespace NyamNyamDesktopApp
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            DependencyService.Register<ViewModelNavigationService>();
+            DependencyService.Get<INavigationService>().Navigate<DishViewModel>();
+
+            NavigationView view = new NavigationView();
+            view.Show();
+        }
     }
 }
