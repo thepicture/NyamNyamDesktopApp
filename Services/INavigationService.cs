@@ -13,7 +13,7 @@ namespace NyamNyamDesktopApp.Services
         /// </summary>
         Stack<object> NavigationJournal { get; }
         /// <summary>
-        /// Fires after every call of inteface methods in implementations.
+        /// Fires after every call to interface methods in implementations.
         /// </summary>
         event Action Navigated;
         /// <summary>

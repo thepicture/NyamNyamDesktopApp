@@ -1,0 +1,439 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="NyamNyamBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Dish">
+          <Key>
+            <PropertyRef Name="DishId" />
+          </Key>
+          <Property Name="DishId" Type="int" Nullable="false" />
+          <Property Name="DishName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="BaseServings" Type="tinyint" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="ImagePath" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SourceRecipeLink" Type="nvarchar" MaxLength="1024" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="FinalPriceInCents" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DishCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CountOfDishes" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DishStage">
+          <Key>
+            <PropertyRef Name="StageId" />
+          </Key>
+          <Property Name="StageId" Type="int" Nullable="false" />
+          <Property Name="ProcessDescription" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TimeInMinutes" Type="tinyint" Nullable="false" />
+          <Property Name="DishId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ingredient">
+          <Key>
+            <PropertyRef Name="IngredientId" />
+          </Key>
+          <Property Name="IngredientId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IngredientName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="PricePerUnitInCents" Type="int" Nullable="false" />
+          <Property Name="UnitId" Type="int" Nullable="false" />
+          <Property Name="CountInStock" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IngredientUnit">
+          <Key>
+            <PropertyRef Name="UnitId" />
+          </Key>
+          <Property Name="UnitId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UnitName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StageIngredient">
+          <Key>
+            <PropertyRef Name="StageIngredientId" />
+          </Key>
+          <Property Name="StageIngredientId" Type="int" Nullable="false" />
+          <Property Name="IngredientId" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="UnitId" Type="int" Nullable="false" />
+          <Property Name="DishStageId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Dish_DishCategory">
+          <End Role="DishCategory" Type="Self.DishCategory" Multiplicity="1" />
+          <End Role="Dish" Type="Self.Dish" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DishCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="Dish">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DishStage_Dish">
+          <End Role="Dish" Type="Self.Dish" Multiplicity="1" />
+          <End Role="DishStage" Type="Self.DishStage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dish">
+              <PropertyRef Name="DishId" />
+            </Principal>
+            <Dependent Role="DishStage">
+              <PropertyRef Name="DishId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ingredient_IngredientUnit">
+          <End Role="IngredientUnit" Type="Self.IngredientUnit" Multiplicity="1" />
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IngredientUnit">
+              <PropertyRef Name="UnitId" />
+            </Principal>
+            <Dependent Role="Ingredient">
+              <PropertyRef Name="UnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StageIngredient_DishStage">
+          <End Role="DishStage" Type="Self.DishStage" Multiplicity="1" />
+          <End Role="StageIngredient" Type="Self.StageIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DishStage">
+              <PropertyRef Name="StageId" />
+            </Principal>
+            <Dependent Role="StageIngredient">
+              <PropertyRef Name="DishStageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StageIngredient_Ingredient">
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="1" />
+          <End Role="StageIngredient" Type="Self.StageIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ingredient">
+              <PropertyRef Name="IngredientId" />
+            </Principal>
+            <Dependent Role="StageIngredient">
+              <PropertyRef Name="IngredientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StageIngredient_IngredientUnit">
+          <End Role="IngredientUnit" Type="Self.IngredientUnit" Multiplicity="1" />
+          <End Role="StageIngredient" Type="Self.StageIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IngredientUnit">
+              <PropertyRef Name="UnitId" />
+            </Principal>
+            <Dependent Role="StageIngredient">
+              <PropertyRef Name="UnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NyamNyamBaseModelStoreContainer">
+          <EntitySet Name="Dish" EntityType="Self.Dish" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DishCategory" EntityType="Self.DishCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DishStage" EntityType="Self.DishStage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ingredient" EntityType="Self.Ingredient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IngredientUnit" EntityType="Self.IngredientUnit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StageIngredient" EntityType="Self.StageIngredient" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Dish_DishCategory" Association="Self.FK_Dish_DishCategory">
+            <End Role="DishCategory" EntitySet="DishCategory" />
+            <End Role="Dish" EntitySet="Dish" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DishStage_Dish" Association="Self.FK_DishStage_Dish">
+            <End Role="Dish" EntitySet="Dish" />
+            <End Role="DishStage" EntitySet="DishStage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ingredient_IngredientUnit" Association="Self.FK_Ingredient_IngredientUnit">
+            <End Role="IngredientUnit" EntitySet="IngredientUnit" />
+            <End Role="Ingredient" EntitySet="Ingredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StageIngredient_DishStage" Association="Self.FK_StageIngredient_DishStage">
+            <End Role="DishStage" EntitySet="DishStage" />
+            <End Role="StageIngredient" EntitySet="StageIngredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StageIngredient_Ingredient" Association="Self.FK_StageIngredient_Ingredient">
+            <End Role="Ingredient" EntitySet="Ingredient" />
+            <End Role="StageIngredient" EntitySet="StageIngredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StageIngredient_IngredientUnit" Association="Self.FK_StageIngredient_IngredientUnit">
+            <End Role="IngredientUnit" EntitySet="IngredientUnit" />
+            <End Role="StageIngredient" EntitySet="StageIngredient" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NyamNyamBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Dish">
+          <Key>
+            <PropertyRef Name="DishId" />
+          </Key>
+          <Property Name="DishId" Type="Int32" Nullable="false" />
+          <Property Name="DishName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BaseServings" Type="Byte" Nullable="false" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SourceRecipeLink" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FinalPriceInCents" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DishCategory" Relationship="Self.FK_Dish_DishCategory" FromRole="Dish" ToRole="DishCategory" />
+          <NavigationProperty Name="DishStage" Relationship="Self.FK_DishStage_Dish" FromRole="Dish" ToRole="DishStage" />
+        </EntityType>
+        <EntityType Name="DishCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CountOfDishes" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Dish" Relationship="Self.FK_Dish_DishCategory" FromRole="DishCategory" ToRole="Dish" />
+        </EntityType>
+        <EntityType Name="DishStage">
+          <Key>
+            <PropertyRef Name="StageId" />
+          </Key>
+          <Property Name="StageId" Type="Int32" Nullable="false" />
+          <Property Name="ProcessDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TimeInMinutes" Type="Byte" Nullable="false" />
+          <Property Name="DishId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Dish" Relationship="Self.FK_DishStage_Dish" FromRole="DishStage" ToRole="Dish" />
+          <NavigationProperty Name="StageIngredient" Relationship="Self.FK_StageIngredient_DishStage" FromRole="DishStage" ToRole="StageIngredient" />
+        </EntityType>
+        <EntityType Name="Ingredient">
+          <Key>
+            <PropertyRef Name="IngredientId" />
+          </Key>
+          <Property Name="IngredientId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IngredientName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PricePerUnitInCents" Type="Int32" Nullable="false" />
+          <Property Name="UnitId" Type="Int32" Nullable="false" />
+          <Property Name="CountInStock" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="IngredientUnit" Relationship="Self.FK_Ingredient_IngredientUnit" FromRole="Ingredient" ToRole="IngredientUnit" />
+          <NavigationProperty Name="StageIngredient" Relationship="Self.FK_StageIngredient_Ingredient" FromRole="Ingredient" ToRole="StageIngredient" />
+        </EntityType>
+        <EntityType Name="IngredientUnit">
+          <Key>
+            <PropertyRef Name="UnitId" />
+          </Key>
+          <Property Name="UnitId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UnitName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Ingredient" Relationship="Self.FK_Ingredient_IngredientUnit" FromRole="IngredientUnit" ToRole="Ingredient" />
+          <NavigationProperty Name="StageIngredient" Relationship="Self.FK_StageIngredient_IngredientUnit" FromRole="IngredientUnit" ToRole="StageIngredient" />
+        </EntityType>
+        <EntityType Name="StageIngredient">
+          <Key>
+            <PropertyRef Name="StageIngredientId" />
+          </Key>
+          <Property Name="StageIngredientId" Type="Int32" Nullable="false" />
+          <Property Name="IngredientId" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="UnitId" Type="Int32" Nullable="false" />
+          <Property Name="DishStageId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DishStage" Relationship="Self.FK_StageIngredient_DishStage" FromRole="StageIngredient" ToRole="DishStage" />
+          <NavigationProperty Name="Ingredient" Relationship="Self.FK_StageIngredient_Ingredient" FromRole="StageIngredient" ToRole="Ingredient" />
+          <NavigationProperty Name="IngredientUnit" Relationship="Self.FK_StageIngredient_IngredientUnit" FromRole="StageIngredient" ToRole="IngredientUnit" />
+        </EntityType>
+        <Association Name="FK_Dish_DishCategory">
+          <End Role="DishCategory" Type="Self.DishCategory" Multiplicity="1" />
+          <End Role="Dish" Type="Self.Dish" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DishCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="Dish">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DishStage_Dish">
+          <End Role="Dish" Type="Self.Dish" Multiplicity="1" />
+          <End Role="DishStage" Type="Self.DishStage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dish">
+              <PropertyRef Name="DishId" />
+            </Principal>
+            <Dependent Role="DishStage">
+              <PropertyRef Name="DishId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StageIngredient_DishStage">
+          <End Role="DishStage" Type="Self.DishStage" Multiplicity="1" />
+          <End Role="StageIngredient" Type="Self.StageIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DishStage">
+              <PropertyRef Name="StageId" />
+            </Principal>
+            <Dependent Role="StageIngredient">
+              <PropertyRef Name="DishStageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ingredient_IngredientUnit">
+          <End Role="IngredientUnit" Type="Self.IngredientUnit" Multiplicity="1" />
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IngredientUnit">
+              <PropertyRef Name="UnitId" />
+            </Principal>
+            <Dependent Role="Ingredient">
+              <PropertyRef Name="UnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StageIngredient_Ingredient">
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="1" />
+          <End Role="StageIngredient" Type="Self.StageIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ingredient">
+              <PropertyRef Name="IngredientId" />
+            </Principal>
+            <Dependent Role="StageIngredient">
+              <PropertyRef Name="IngredientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StageIngredient_IngredientUnit">
+          <End Role="IngredientUnit" Type="Self.IngredientUnit" Multiplicity="1" />
+          <End Role="StageIngredient" Type="Self.StageIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IngredientUnit">
+              <PropertyRef Name="UnitId" />
+            </Principal>
+            <Dependent Role="StageIngredient">
+              <PropertyRef Name="UnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NyamNyamBaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Dish" EntityType="Self.Dish" />
+          <EntitySet Name="DishCategory" EntityType="Self.DishCategory" />
+          <EntitySet Name="DishStage" EntityType="Self.DishStage" />
+          <EntitySet Name="Ingredient" EntityType="Self.Ingredient" />
+          <EntitySet Name="IngredientUnit" EntityType="Self.IngredientUnit" />
+          <EntitySet Name="StageIngredient" EntityType="Self.StageIngredient" />
+          <AssociationSet Name="FK_Dish_DishCategory" Association="Self.FK_Dish_DishCategory">
+            <End Role="DishCategory" EntitySet="DishCategory" />
+            <End Role="Dish" EntitySet="Dish" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DishStage_Dish" Association="Self.FK_DishStage_Dish">
+            <End Role="Dish" EntitySet="Dish" />
+            <End Role="DishStage" EntitySet="DishStage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StageIngredient_DishStage" Association="Self.FK_StageIngredient_DishStage">
+            <End Role="DishStage" EntitySet="DishStage" />
+            <End Role="StageIngredient" EntitySet="StageIngredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ingredient_IngredientUnit" Association="Self.FK_Ingredient_IngredientUnit">
+            <End Role="IngredientUnit" EntitySet="IngredientUnit" />
+            <End Role="Ingredient" EntitySet="Ingredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StageIngredient_Ingredient" Association="Self.FK_StageIngredient_Ingredient">
+            <End Role="Ingredient" EntitySet="Ingredient" />
+            <End Role="StageIngredient" EntitySet="StageIngredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StageIngredient_IngredientUnit" Association="Self.FK_StageIngredient_IngredientUnit">
+            <End Role="IngredientUnit" EntitySet="IngredientUnit" />
+            <End Role="StageIngredient" EntitySet="StageIngredient" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="NyamNyamBaseModelStoreContainer" CdmEntityContainer="NyamNyamBaseEntities">
+          <EntitySetMapping Name="Dish">
+            <EntityTypeMapping TypeName="NyamNyamBaseModel.Dish">
+              <MappingFragment StoreEntitySet="Dish">
+                <ScalarProperty Name="DishId" ColumnName="DishId" />
+                <ScalarProperty Name="DishName" ColumnName="DishName" />
+                <ScalarProperty Name="BaseServings" ColumnName="BaseServings" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="SourceRecipeLink" ColumnName="SourceRecipeLink" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="FinalPriceInCents" ColumnName="FinalPriceInCents" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DishCategory">
+            <EntityTypeMapping TypeName="NyamNyamBaseModel.DishCategory">
+              <MappingFragment StoreEntitySet="DishCategory">
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="CountOfDishes" ColumnName="CountOfDishes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DishStage">
+            <EntityTypeMapping TypeName="NyamNyamBaseModel.DishStage">
+              <MappingFragment StoreEntitySet="DishStage">
+                <ScalarProperty Name="StageId" ColumnName="StageId" />
+                <ScalarProperty Name="ProcessDescription" ColumnName="ProcessDescription" />
+                <ScalarProperty Name="TimeInMinutes" ColumnName="TimeInMinutes" />
+                <ScalarProperty Name="DishId" ColumnName="DishId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ingredient">
+            <EntityTypeMapping TypeName="NyamNyamBaseModel.Ingredient">
+              <MappingFragment StoreEntitySet="Ingredient">
+                <ScalarProperty Name="IngredientId" ColumnName="IngredientId" />
+                <ScalarProperty Name="IngredientName" ColumnName="IngredientName" />
+                <ScalarProperty Name="PricePerUnitInCents" ColumnName="PricePerUnitInCents" />
+                <ScalarProperty Name="UnitId" ColumnName="UnitId" />
+                <ScalarProperty Name="CountInStock" ColumnName="CountInStock" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IngredientUnit">
+            <EntityTypeMapping TypeName="NyamNyamBaseModel.IngredientUnit">
+              <MappingFragment StoreEntitySet="IngredientUnit">
+                <ScalarProperty Name="UnitId" ColumnName="UnitId" />
+                <ScalarProperty Name="UnitName" ColumnName="UnitName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StageIngredient">
+            <EntityTypeMapping TypeName="NyamNyamBaseModel.StageIngredient">
+              <MappingFragment StoreEntitySet="StageIngredient">
+                <ScalarProperty Name="StageIngredientId" ColumnName="StageIngredientId" />
+                <ScalarProperty Name="IngredientId" ColumnName="IngredientId" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="UnitId" ColumnName="UnitId" />
+                <ScalarProperty Name="DishStageId" ColumnName="DishStageId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

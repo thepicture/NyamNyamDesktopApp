@@ -38,8 +38,17 @@
     <ApplicationIcon>nyam-nyam.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -59,7 +68,42 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Models\Entities\Dish.cs">
+      <DependentUpon>NyamModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\DishCategory.cs">
+      <DependentUpon>NyamModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\DishStage.cs">
+      <DependentUpon>NyamModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\Ingredient.cs">
+      <DependentUpon>NyamModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\IngredientUnit.cs">
+      <DependentUpon>NyamModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\NyamModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NyamModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\NyamModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NyamModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\NyamModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NyamModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\StageIngredient.cs">
+      <DependentUpon>NyamModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Services\DependencyService.cs" />
+    <Compile Include="Services\DishDataStore.cs" />
+    <Compile Include="Services\IDataStore.cs" />
     <Compile Include="Services\INavigationService.cs" />
     <Compile Include="Services\ViewModelNavigationService.cs" />
     <Compile Include="ViewsModels\DishViewModel.cs" />
@@ -111,6 +155,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EntityDeploy Include="Models\Entities\NyamModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>NyamModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Models\Entities\NyamModel.edmx.diagram">
+      <DependentUpon>NyamModel.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -119,11 +171,24 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="nyam-nyam.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Models\Entities\NyamModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>NyamModel.Context.cs</LastGenOutput>
+      <DependentUpon>NyamModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\Entities\NyamModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>NyamModel.edmx</DependentUpon>
+      <LastGenOutput>NyamModel.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,5 @@
-﻿using NyamNyamDesktopApp.Services;
+﻿using NyamNyamDesktopApp.Models.Entities;
+using NyamNyamDesktopApp.Services;
 using NyamNyamDesktopApp.ViewsModels;
 using System.Windows;
 
@@ -14,6 +15,8 @@ namespace NyamNyamDesktopApp
             base.OnStartup(e);
 
             DependencyService.Register<ViewModelNavigationService>();
+            DependencyService.Register<NyamNyamBaseEntities>();
+
             DependencyService.Get<INavigationService>().Navigate<DishViewModel>();
 
             NavigationView view = new NavigationView();
