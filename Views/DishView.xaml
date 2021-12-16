@@ -17,6 +17,7 @@
         </Grid.RowDefinitions>
         <Grid.Resources>
             <converters:CentsToDollarConverter x:Key="CentsToDollar"></converters:CentsToDollarConverter>
+            <converters:DishColorConverter x:Key="DishColor"></converters:DishColorConverter>
         </Grid.Resources>
         <StackPanel>
             <TextBlock Text="List of Dishes"
@@ -25,21 +26,43 @@
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Category:"
                                Style="{StaticResource CommonBlock}"></TextBlock>
-                    <ComboBox Style="{StaticResource CommonComboBox}"></ComboBox>
+                    <ComboBox Style="{StaticResource CommonComboBox}"
+                              ItemsSource="{Binding Categories}"
+                              SelectedValue="{Binding CurrentCategory}"
+                              DisplayMemberPath="CategoryName"></ComboBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Name:"
                                Style="{StaticResource CommonBlock}"></TextBlock>
-                    <TextBox Style="{StaticResource CommonBox}"></TextBox>
+                    <TextBox Style="{StaticResource CommonBox}"
+                             Text="{Binding NameOrDescriptionSearchText, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                 </StackPanel>
             </UniformGrid>
             <UniformGrid Columns="2">
                 <CheckBox Content="Show only dishes with available ingredients"
-                          Style="{StaticResource CommonCheckBox}"></CheckBox>
+                          Style="{StaticResource CommonCheckBox}"
+                          IsChecked="{Binding AreOnlyAvailableIngredientsDishes}"></CheckBox>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Price:"
-                           Style="{StaticResource CommonBlock}"></TextBlock>
-                    <Slider Style="{StaticResource CommonSlider}"></Slider>
+                    <TextBlock
+                           Style="{StaticResource CommonBlock}">
+                        <TextBlock.Inlines>
+                            <Run Text="Price is from "></Run>
+                            <Run Text="{Binding MinPriceInDollars, StringFormat={}{0:F0}$}"></Run>
+                            <Run Text="to"></Run>
+                            <Run Text="{Binding MaxPriceInDollars, StringFormat={}{0:F0}$}"></Run>
+                        </TextBlock.Inlines>
+                    </TextBlock>
+                    <Slider Style="{StaticResource CommonSlider}"
+                            Value="{Binding MinPriceInDollars}"
+                            Minimum="1"
+                            Interval="1"
+                            Maximum="49">
+                    </Slider>
+                    <Slider Style="{StaticResource CommonSlider}"
+                            Value="{Binding MaxPriceInDollars}"
+                            Minimum="50"
+                            Interval="1"
+                            Maximum="100"></Slider>
                 </StackPanel>
             </UniformGrid>
         </StackPanel>
@@ -56,15 +79,18 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border Style="{StaticResource CommonBorder}">
-                        <Border.Background>
-                            <ImageBrush ImageSource="{Binding BinaryImage}"></ImageBrush>
-                        </Border.Background>
                         <Grid Width="270"
                               Height="250">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="1*" />
                                 <RowDefinition Height="1*" />
                             </Grid.RowDefinitions>
+                            <Image Grid.RowSpan="2">
+                                <Image.Source>
+                                    <FormatConvertedBitmap Source="{Binding BinaryImage}"
+                                                           DestinationFormat="{Binding ., Converter={StaticResource DishColor}}"></FormatConvertedBitmap>
+                                </Image.Source>
+                            </Image>
                             <Border Grid.Row="1"
                                         Style="{StaticResource CommonBorder}">
                                 <Grid>

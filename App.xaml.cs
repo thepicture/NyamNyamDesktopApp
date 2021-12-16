@@ -17,6 +17,7 @@ namespace NyamNyamDesktopApp
             DependencyService.Register<ViewModelNavigationService>();
             DependencyService.Register<NyamNyamBaseEntities>();
             DependencyService.Register<DishDataStore>();
+            DependencyService.Register<DishCategoryDataStore>();
 
             DependencyService.Get<INavigationService>().Navigate<DishViewModel>();
 

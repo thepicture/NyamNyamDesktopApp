@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace NyamNyamDesktopApp.Services
 {
-    public class DishDataStore : IDataStore<Dish>
+    public class DishCategoryDataStore : IDataStore<DishCategory>
     {
-        public DishDataStore()
+        public DishCategoryDataStore()
         {
         }
 
-        public Task<bool> CreateAsync(Dish obj)
+        public Task<bool> CreateAsync(DishCategory obj)
         {
             throw new NotImplementedException();
         }
@@ -22,17 +22,17 @@ namespace NyamNyamDesktopApp.Services
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Dish>> GetAllASync()
+        public async Task<IEnumerable<DishCategory>> GetAllASync()
         {
-            return await new NyamNyamBaseEntities().Dish.ToListAsync();
+            return await new NyamNyamBaseEntities().DishCategory.ToListAsync();
         }
 
-        public async Task<Dish> GetAsync(string id)
+        public Task<DishCategory> GetAsync(string id)
         {
-            return await new NyamNyamBaseEntities().Dish.FindAsync(id);
+            throw new NotImplementedException();
         }
 
-        public Task<bool> UpdateAsync(Dish obj, string id)
+        public Task<bool> UpdateAsync(DishCategory obj, string id)
         {
             throw new NotImplementedException();
         }
