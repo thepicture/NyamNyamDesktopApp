@@ -91,6 +91,9 @@
                                                            DestinationFormat="{Binding ., Converter={StaticResource DishColor}}"></FormatConvertedBitmap>
                                 </Image.Source>
                             </Image>
+                            <Button Opacity="0"
+                                    CommandParameter="{Binding .}"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.NavigateToDishRecipeCommand}"></Button>
                             <Border Grid.Row="1"
                                         Style="{StaticResource CommonBorder}">
                                 <Grid>

@@ -45,6 +45,9 @@
                     <DataTemplate DataType="{x:Type viewsmodels:IngredientViewModel}">
                         <views:IngredientView></views:IngredientView>
                     </DataTemplate>
+                    <DataTemplate DataType="{x:Type viewsmodels:RecipeViewModel}">
+                        <views:RecipeView></views:RecipeView>
+                    </DataTemplate>
                 </ContentControl.Resources>
             </ContentControl>
         </Border>

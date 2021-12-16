@@ -69,7 +69,9 @@
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Converters\CentsToDollarConverter.cs" />
+    <Compile Include="Converters\DishAvailabilityConverter.cs" />
     <Compile Include="Converters\DishColorConverter.cs" />
+    <Compile Include="Converters\DishToTimeInMinutesConverter.cs" />
     <Compile Include="Models\DishIngredientsExistChecker.cs" />
     <Compile Include="Models\Entities\Dish.cs">
       <DependentUpon>NyamModel.tt</DependentUpon>
@@ -113,7 +115,11 @@
     <Compile Include="ViewsModels\DishViewModel.cs" />
     <Compile Include="ViewsModels\IngredientViewModel.cs" />
     <Compile Include="ViewsModels\NavigationViewModel.cs" />
+    <Compile Include="ViewsModels\RecipeViewModel.cs" />
     <Compile Include="ViewsModels\ViewModelBase.cs" />
+    <Compile Include="Views\RecipeView.xaml.cs">
+      <DependentUpon>RecipeView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Views\DishView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -140,6 +146,10 @@
       <DependentUpon>NavigationView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\RecipeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

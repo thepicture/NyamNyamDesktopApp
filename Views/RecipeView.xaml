@@ -1,0 +1,116 @@
+﻿<UserControl x:Class="NyamNyamDesktopApp.Views.RecipeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:converters="clr-namespace:NyamNyamDesktopApp.Converters"
+             xmlns:local="clr-namespace:NyamNyamDesktopApp.Views"
+             xmlns:viewsmodels="clr-namespace:NyamNyamDesktopApp.ViewsModels" 
+             d:DataContext="{d:DesignInstance Type=viewsmodels:RecipeViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" 
+             d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <converters:CentsToDollarConverter x:Key="CentsToDollar"></converters:CentsToDollarConverter>
+            <converters:DishToTimeInMinutesConverter x:Key="DishTimeInMinutes"></converters:DishToTimeInMinutesConverter>
+            <converters:DishAvailabilityConverter x:Key="DishAvailability"></converters:DishAvailabilityConverter>
+        </Grid.Resources>
+        <StackPanel>
+            <TextBlock Text="{Binding CurrentDish.DishName, StringFormat='Recipe for&quot;{0}&quot;'}"
+                       Style="{StaticResource HeaderBlock}"></TextBlock>
+            <UniformGrid Columns="2">
+                <TextBlock Text="{Binding CurrentDish.DishCategory.CategoryName, StringFormat={}Category: {0}}"
+                               Style="{StaticResource CommonBlock}"></TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Servings:"
+                               Style="{StaticResource CommonBlock}"></TextBlock>
+                    <Button Style="{StaticResource CommonButton}"
+                            Width="20"
+                            Content="-"></Button>
+                    <TextBox Style="{StaticResource CommonBox}"
+                             Width="40"></TextBox>
+                    <Button Style="{StaticResource CommonButton}"
+                            Width="20"
+                            Content="+"></Button>
+                </StackPanel>
+            </UniformGrid>
+            <UniformGrid Columns="2">
+                <TextBlock Text="{Binding CurrentDish, StringFormat={}Cooking time: {0} min., Converter={StaticResource DishTimeInMinutes}}"
+                               Style="{StaticResource CommonBlock}"></TextBlock>
+                <TextBlock Text="{Binding CurrentDish.FinalPriceInCents, StringFormat={}Total cost: {0:F2}$, Converter={StaticResource CentsToDollar}}"
+                               Style="{StaticResource CommonBlock}"></TextBlock>
+            </UniformGrid>
+            <TextBlock Style="{StaticResource CommonBlock}"
+                       Text="{Binding CurrentDish.Description, StringFormat={}Short description: {0}}"
+                       TextWrapping="Wrap"
+                       FontStyle="Italic"></TextBlock>
+        </StackPanel>
+        <Border Grid.Row="1"
+                Style="{StaticResource CommonBorder}">
+            <UniformGrid Columns="2">
+                <Border Style="{StaticResource CommonBorder}">
+                    <StackPanel>
+                        <TextBlock Text="Ingredients:"
+                           HorizontalAlignment="Center"
+                           Style="{StaticResource HeaderBlock}"></TextBlock>
+                        <DataGrid ItemsSource="{Binding Ingredients}"
+                                  AutoGenerateColumns="False"
+                                  ColumnWidth="*"
+                                  IsReadOnly="True"
+                                  Margin="5"
+                                  Height="200">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <RadioButton IsChecked="{Binding CountInStock, Converter={StaticResource DishAvailability}}"></RadioButton>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="Name"
+                                                    Binding="{Binding IngredientName}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Quantity"
+                                                    Binding="{Binding CountInStock}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Unit"
+                                                    Binding="{Binding IngredientUnit.UnitName}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Cost"
+                                                    Binding="{Binding PricePerUnitInCents, Converter={StaticResource CentsToDollar}, StringFormat={}{0:F2}$}"></DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource CommonBorder}">
+                    <StackPanel>
+                        <TextBlock Text="Cooking process:"
+                           HorizontalAlignment="Center"
+                           Style="{StaticResource HeaderBlock}"></TextBlock>
+                        <ListView Margin="5"
+                                  ItemsSource="{Binding CurrentDish.DishStage}"
+                                  ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                  Height="200">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ProcessDescription}"></TextBlock>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+        </Border>
+        <Border Style="{StaticResource CommonBorder}"
+                Grid.Row="2">
+            <Button Content="Back"
+                Style="{StaticResource CommonButton}"
+                HorizontalAlignment="Center"
+                Width="200"></Button>
+        </Border>
+    </Grid>
+</UserControl>

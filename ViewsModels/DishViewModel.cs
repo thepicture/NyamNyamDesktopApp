@@ -1,8 +1,11 @@
-﻿using NyamNyamDesktopApp.Models;
+﻿using NyamNyamDesktopApp.Commands;
+using NyamNyamDesktopApp.Models;
 using NyamNyamDesktopApp.Models.Entities;
+using NyamNyamDesktopApp.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace NyamNyamDesktopApp.ViewsModels
 {
@@ -113,6 +116,27 @@ namespace NyamNyamDesktopApp.ViewsModels
             dishesFromDatabase = dishesFromDatabase.Where(d => d.FinalPriceInCents >= MinPriceInDollars * 100 && d.FinalPriceInCents <= MaxPriceInDollars * 100);
 
             Dishes = dishesFromDatabase;
+        }
+
+        private RelayCommand navigateToDishRecipeCommand;
+
+        public ICommand NavigateToDishRecipeCommand
+        {
+            get
+            {
+                if (navigateToDishRecipeCommand == null)
+                {
+                    navigateToDishRecipeCommand = new RelayCommand(NavigateToDishRecipe);
+                }
+
+                return navigateToDishRecipeCommand;
+            }
+        }
+
+        private void NavigateToDishRecipe(object commandParameter)
+        {
+            Dish dish = commandParameter as Dish;
+            DependencyService.Get<INavigationService>().NavigateWithParameter<RecipeViewModel>(dish);
         }
     }
 }
