@@ -28,6 +28,7 @@ namespace NyamNyamDesktopApp.Models.Entities
         public string SourceRecipeLink { get; set; }
         public string Description { get; set; }
         public int FinalPriceInCents { get; set; }
+        public byte[] BinaryImage { get; set; }
     
         public virtual DishCategory DishCategory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

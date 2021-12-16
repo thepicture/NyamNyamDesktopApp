@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="NyamNyamBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="NyamNyamBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Dish">
           <Key>
             <PropertyRef Name="DishId" />
@@ -17,6 +17,7 @@
           <Property Name="SourceRecipeLink" Type="nvarchar" MaxLength="1024" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
           <Property Name="FinalPriceInCents" Type="int" Nullable="false" />
+          <Property Name="BinaryImage" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="DishCategory">
           <Key>
@@ -166,8 +167,7 @@
             <End Role="StageIngredient" EntitySet="StageIngredient" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="NyamNyamBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -185,6 +185,7 @@
           <Property Name="FinalPriceInCents" Type="Int32" Nullable="false" />
           <NavigationProperty Name="DishCategory" Relationship="Self.FK_Dish_DishCategory" FromRole="Dish" ToRole="DishCategory" />
           <NavigationProperty Name="DishStage" Relationship="Self.FK_DishStage_Dish" FromRole="Dish" ToRole="DishStage" />
+          <Property Name="BinaryImage" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="DishCategory">
           <Key>
@@ -353,6 +354,7 @@
           <EntitySetMapping Name="Dish">
             <EntityTypeMapping TypeName="NyamNyamBaseModel.Dish">
               <MappingFragment StoreEntitySet="Dish">
+                <ScalarProperty Name="BinaryImage" ColumnName="BinaryImage" />
                 <ScalarProperty Name="DishId" ColumnName="DishId" />
                 <ScalarProperty Name="DishName" ColumnName="DishName" />
                 <ScalarProperty Name="BaseServings" ColumnName="BaseServings" />

@@ -68,6 +68,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Converters\CentsToDollarConverter.cs" />
     <Compile Include="Models\Entities\Dish.cs">
       <DependentUpon>NyamModel.tt</DependentUpon>
     </Compile>
@@ -171,24 +172,23 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="nyam-nyam.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Models\Entities\NyamModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>NyamModel.Context.cs</LastGenOutput>
       <DependentUpon>NyamModel.edmx</DependentUpon>
+      <LastGenOutput>NyamModel.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Models\Entities\NyamModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>NyamModel.edmx</DependentUpon>
       <LastGenOutput>NyamModel.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
