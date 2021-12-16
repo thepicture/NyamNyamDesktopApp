@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using NyamNyamDesktopApp.Models.Entities;
+using NyamNyamDesktopApp.Services;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace NyamNyamDesktopApp.ViewsModels
@@ -7,6 +9,8 @@ namespace NyamNyamDesktopApp.ViewsModels
     {
         private string _title = string.Empty;
         private bool _isBusy = false;
+
+        public IDataStore<Dish> DishDataStore => DependencyService.Get<IDataStore<Dish>>();
 
         public string Title
         {

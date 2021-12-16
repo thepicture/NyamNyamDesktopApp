@@ -3,11 +3,81 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:NyamNyamDesktopApp.Views"
+             xmlns:local="clr-namespace:NyamNyamDesktopApp.Views" xmlns:viewsmodels="clr-namespace:NyamNyamDesktopApp.ViewsModels" d:DataContext="{d:DesignInstance Type=viewsmodels:DishViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" 
              d:DesignWidth="800">
     <Grid>
-        <TextBlock Text="Dishes"></TextBlock>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <TextBlock Text="List of Dishes"
+                   Style="{StaticResource HeaderBlock}"></TextBlock>
+            <UniformGrid Columns="2">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Category:"
+                               Style="{StaticResource CommonBlock}"></TextBlock>
+                    <ComboBox Style="{StaticResource CommonComboBox}"></ComboBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Name:"
+                               Style="{StaticResource CommonBlock}"></TextBlock>
+                    <TextBox Style="{StaticResource CommonBox}"></TextBox>
+                </StackPanel>
+            </UniformGrid>
+            <UniformGrid Columns="2">
+                <CheckBox Content="Show only dishes with available ingredients"
+                          Style="{StaticResource CommonCheckBox}"></CheckBox>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Price:"
+                           Style="{StaticResource CommonBlock}"></TextBlock>
+                    <Slider Style="{StaticResource CommonSlider}"></Slider>
+                </StackPanel>
+            </UniformGrid>
+        </StackPanel>
+        <ListView Grid.Row="1"
+                  ItemsSource="{Binding Dishes}"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal"
+                               HorizontalAlignment="Center"></WrapPanel>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border Style="{StaticResource CommonBorder}">
+                        <Grid Width="270"
+                              Height="250">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="1"
+                                        Style="{StaticResource CommonBorder}">
+                                <Grid>
+                                    <Grid Background="{StaticResource Background}"
+                                          Opacity=".5"></Grid>
+                                    <TextBlock Text="{Binding DishName}"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Center"
+                                               Style="{StaticResource HeaderBlock}"
+                                               FontSize="20"></TextBlock>
+                                    <TextBlock Text="1 portion = NN.NN$"
+                                               HorizontalAlignment="Center"
+                                               Style="{StaticResource CommonBlock}"
+                                               FontSize="15"
+                                               FontStyle="Italic"
+                                               VerticalAlignment="Bottom"></TextBlock>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </UserControl>

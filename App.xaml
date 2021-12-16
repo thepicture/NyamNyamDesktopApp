@@ -18,6 +18,31 @@
                x:Key="CommonBlock">
             <Setter Property="Margin" Value="5" />
         </Style>
+        <Style TargetType="ComboBox"
+               x:Key="CommonComboBox">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Width" Value="200" />
+        </Style>
+        <Style TargetType="CheckBox"
+               x:Key="CommonCheckBox">
+            <Setter Property="Margin" Value="5" />
+        </Style>
+        <Style TargetType="Slider"
+               x:Key="CommonSlider">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Width" Value="200" />
+        </Style>
+        <Style TargetType="TextBox"
+               x:Key="CommonBox">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Width" Value="200" />
+        </Style>
+        <Style TargetType="TextBlock"
+               x:Key="HeaderBlock"
+               BasedOn="{StaticResource CommonBlock}">
+            <Setter Property="FontSize" Value="25" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
         <Style TargetType="Button"
                x:Key="CommonButton">
             <Setter Property="Margin" Value="5" />
