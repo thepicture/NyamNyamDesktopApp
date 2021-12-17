@@ -91,13 +91,14 @@
                            HorizontalAlignment="Center"
                            Style="{StaticResource HeaderBlock}"></TextBlock>
                         <ListView Margin="5"
-                                  ItemsSource="{Binding CurrentDish.DishStage}"
+                                  ItemsSource="{Binding CookingProcess}"
                                   ScrollViewer.VerticalScrollBarVisibility="Visible"
                                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                   Height="200">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding ProcessDescription}"></TextBlock>
+                                    <TextBlock Text="{Binding .}"
+                                               TextWrapping="Wrap"></TextBlock>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>

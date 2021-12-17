@@ -9,12 +9,15 @@ namespace NyamNyamDesktopApp.ViewsModels
     {
         private Dish _currentDish;
         private IList<ExtendedIngredient> _ingredients;
+        private IEnumerable<string> _cookingProcess;
 
         public RecipeViewModel(Dish dish)
         {
             Title = "Recipes";
             CurrentDish = dish;
             Ingredients = DishIngredientsChecker.GetIngredientsWithAvailabilityOfDish(dish).ToList();
+            int stageId = 1;
+            CookingProcess = dish.DishStage.Select(d => stageId++ + ". " + d.ProcessDescription);
         }
 
         public Dish CurrentDish
@@ -27,5 +30,6 @@ namespace NyamNyamDesktopApp.ViewsModels
             get => _ingredients;
             set => SetProperty(ref _ingredients, value);
         }
+        public IEnumerable<string> CookingProcess { get => _cookingProcess; set => SetProperty(ref _cookingProcess, value); }
     }
 }
