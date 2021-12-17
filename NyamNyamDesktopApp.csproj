@@ -69,10 +69,9 @@
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Converters\CentsToDollarConverter.cs" />
-    <Compile Include="Converters\DishAvailabilityConverter.cs" />
     <Compile Include="Converters\DishColorConverter.cs" />
     <Compile Include="Converters\DishToTimeInMinutesConverter.cs" />
-    <Compile Include="Models\DishIngredientsExistChecker.cs" />
+    <Compile Include="Models\DishIngredientsChecker.cs" />
     <Compile Include="Models\Entities\Dish.cs">
       <DependentUpon>NyamModel.tt</DependentUpon>
     </Compile>
@@ -106,6 +105,7 @@
     <Compile Include="Models\Entities\StageIngredient.cs">
       <DependentUpon>NyamModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ExtendedIngredient.cs" />
     <Compile Include="Services\DependencyService.cs" />
     <Compile Include="Services\DishCategoryDataStore.cs" />
     <Compile Include="Services\DishDataStore.cs" />

@@ -111,7 +111,7 @@ namespace NyamNyamDesktopApp.ViewsModels
             }
             if (AreOnlyAvailableIngredientsDishes)
             {
-                dishesFromDatabase = dishesFromDatabase.Where(d => DishIngredientsExistChecker.Check(d));
+                dishesFromDatabase = dishesFromDatabase.Where(d => DishIngredientsChecker.IsPossibleToCook(d));
             }
             dishesFromDatabase = dishesFromDatabase.Where(d => d.FinalPriceInCents >= MinPriceInDollars * 100 && d.FinalPriceInCents <= MaxPriceInDollars * 100);
 

@@ -19,7 +19,6 @@
         <Grid.Resources>
             <converters:CentsToDollarConverter x:Key="CentsToDollar"></converters:CentsToDollarConverter>
             <converters:DishToTimeInMinutesConverter x:Key="DishTimeInMinutes"></converters:DishToTimeInMinutesConverter>
-            <converters:DishAvailabilityConverter x:Key="DishAvailability"></converters:DishAvailabilityConverter>
         </Grid.Resources>
         <StackPanel>
             <TextBlock Text="{Binding CurrentDish.DishName, StringFormat='Recipe for&quot;{0}&quot;'}"
@@ -69,18 +68,19 @@
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <RadioButton IsChecked="{Binding CountInStock, Converter={StaticResource DishAvailability}}"></RadioButton>
+                                            <RadioButton IsChecked="{Binding IsAvailable, Mode=OneWay}"
+                                                         IsHitTestVisible="False"></RadioButton>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
                                 <DataGridTextColumn Header="Name"
-                                                    Binding="{Binding IngredientName}"></DataGridTextColumn>
+                                                    Binding="{Binding Ingredient.IngredientName}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="Quantity"
-                                                    Binding="{Binding CountInStock}"></DataGridTextColumn>
+                                                    Binding="{Binding Ingredient.CountInStock}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="Unit"
-                                                    Binding="{Binding IngredientUnit.UnitName}"></DataGridTextColumn>
+                                                    Binding="{Binding Ingredient.IngredientUnit.UnitName}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="Cost"
-                                                    Binding="{Binding PricePerUnitInCents, Converter={StaticResource CentsToDollar}, StringFormat={}{0:F2}$}"></DataGridTextColumn>
+                                                    Binding="{Binding Ingredient.PricePerUnitInCents, Converter={StaticResource CentsToDollar}, StringFormat={}{0:F2}$}"></DataGridTextColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>

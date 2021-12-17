@@ -1,29 +1,20 @@
-﻿using NyamNyamDesktopApp.Models.Entities;
+﻿using NyamNyamDesktopApp.Models;
+using NyamNyamDesktopApp.Models.Entities;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NyamNyamDesktopApp.ViewsModels
 {
     public class RecipeViewModel : ViewModelBase
     {
         private Dish _currentDish;
-        private IList<Ingredient> _ingredients;
+        private IList<ExtendedIngredient> _ingredients;
 
         public RecipeViewModel(Dish dish)
         {
             Title = "Recipes";
             CurrentDish = dish;
-            Ingredients = new List<Ingredient>();
-            var dishStages = CurrentDish.DishStage;
-            foreach (DishStage stage in dishStages)
-            {
-                foreach (var stageIngredient in stage.StageIngredient)
-                {
-                    if (!Ingredients.Contains(stageIngredient.Ingredient))
-                    {
-                        Ingredients.Add(stageIngredient.Ingredient);
-                    }
-                }
-            }
+            Ingredients = DishIngredientsChecker.GetIngredientsWithAvailabilityOfDish(dish).ToList();
         }
 
         public Dish CurrentDish
@@ -31,7 +22,7 @@ namespace NyamNyamDesktopApp.ViewsModels
             get => _currentDish;
             set => SetProperty(ref _currentDish, value);
         }
-        public IList<Ingredient> Ingredients
+        public IList<ExtendedIngredient> Ingredients
         {
             get => _ingredients;
             set => SetProperty(ref _ingredients, value);

@@ -12,7 +12,7 @@ namespace NyamNyamDesktopApp.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             Dish dish = value as Dish;
-            bool isEnoughIngredients = DishIngredientsExistChecker.Check(dish);
+            bool isEnoughIngredients = DishIngredientsChecker.IsPossibleToCook(dish);
             return isEnoughIngredients ? PixelFormats.Pbgra32 : PixelFormats.Gray8;
 
         }
