@@ -12,6 +12,7 @@
         Width="1400"
         MinHeight="450"
         MinWidth="800"
+        WindowStartupLocation="CenterScreen"
         Title="{Binding SelectedViewModel.Title}">
     <Window.DataContext>
         <viewsmodels:NavigationViewModel></viewsmodels:NavigationViewModel>

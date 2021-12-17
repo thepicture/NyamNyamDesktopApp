@@ -108,6 +108,7 @@
     <Compile Include="Models\ExtendedIngredient.cs" />
     <Compile Include="Services\DependencyService.cs" />
     <Compile Include="Services\DishCategoryDataStore.cs" />
+    <Compile Include="Services\IngredientDataStore.cs" />
     <Compile Include="Services\DishDataStore.cs" />
     <Compile Include="Services\IDataStore.cs" />
     <Compile Include="Services\INavigationService.cs" />

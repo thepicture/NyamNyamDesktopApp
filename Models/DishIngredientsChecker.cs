@@ -8,7 +8,6 @@ namespace NyamNyamDesktopApp.Models
     {
         public static bool IsPossibleToCook(Dish dish)
         {
-            NyamNyamBaseEntities db = new NyamNyamBaseEntities();
             if (dish == null)
             {
                 return false;
@@ -20,10 +19,26 @@ namespace NyamNyamDesktopApp.Models
         public static IEnumerable<ExtendedIngredient> GetIngredientsWithAvailabilityOfDish(Dish dish,
                                                                                            int servingsCount)
         {
-            NyamNyamBaseEntities db = new NyamNyamBaseEntities();
+            var dishStages = new List<DishStage>();
+            var stageIngredients = new List<StageIngredient>();
+            var ingredients = new List<Ingredient>();
+
+            foreach (var dishStage in dish.DishStage)
+            {
+                dishStages.Add(dishStage);
+                foreach (var stageIngredient in dishStage.StageIngredient)
+                {
+                    stageIngredients.Add(stageIngredient);
+                    if (!ingredients.Contains(stageIngredient.Ingredient))
+                    {
+                        ingredients.Add(stageIngredient.Ingredient);
+                    }
+                }
+            }
+
             return (from ds in dish.DishStage
-                    join si in db.StageIngredient on ds.StageId equals si.DishStageId
-                    join i in db.Ingredient on si.IngredientId equals i.IngredientId
+                    join si in stageIngredients on ds.StageId equals si.DishStageId
+                    join i in ingredients on si.IngredientId equals i.IngredientId
                     group si by (
                         si.Ingredient,
                         si.Quantity,

@@ -26,7 +26,10 @@ namespace NyamNyamDesktopApp.ViewsModels
         private async void GetDishCategories()
         {
             IEnumerable<DishCategory> extendedCategories = await DishCategoryDataStore.GetAllASync();
-            extendedCategories = extendedCategories.ToList().Prepend(new DishCategory { CategoryName = "All categories" });
+            extendedCategories = extendedCategories.ToList().Prepend(new DishCategory
+            {
+                CategoryName = "All categories"
+            });
             Categories = extendedCategories;
             CurrentCategory = extendedCategories.First();
         }
@@ -48,7 +51,7 @@ namespace NyamNyamDesktopApp.ViewsModels
             set
             {
                 SetProperty(ref _currentCategory, value);
-                FilterDishes();
+                Task.Run(FilterDishes);
             }
         }
 
@@ -58,7 +61,7 @@ namespace NyamNyamDesktopApp.ViewsModels
             set
             {
                 SetProperty(ref _nameOrDescriptionSearchText, value);
-                FilterDishes();
+                _ = Task.Run(FilterDishes);
             }
         }
 
@@ -75,7 +78,7 @@ namespace NyamNyamDesktopApp.ViewsModels
             set
             {
                 SetProperty(ref _areOnlyAvailableIngredientsDishes, value);
-                FilterDishes();
+                _ = Task.Run(FilterDishes);
             }
         }
         public double MinPriceInDollars
@@ -84,7 +87,7 @@ namespace NyamNyamDesktopApp.ViewsModels
             set
             {
                 SetProperty(ref _minPriceInDollars, value);
-                FilterDishes();
+                _ = Task.Run(FilterDishes);
             }
         }
         public double MaxPriceInDollars
@@ -93,7 +96,7 @@ namespace NyamNyamDesktopApp.ViewsModels
             set
             {
                 SetProperty(ref _maxPriceInDollars, value);
-                FilterDishes();
+                _ = Task.Run(FilterDishes);
             }
         }
 

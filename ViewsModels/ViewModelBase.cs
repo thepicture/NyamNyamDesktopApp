@@ -14,6 +14,7 @@ namespace NyamNyamDesktopApp.ViewsModels
 
         public IDataStore<Dish> DishDataStore => DependencyService.Get<IDataStore<Dish>>();
         public IDataStore<DishCategory> DishCategoryDataStore => DependencyService.Get<IDataStore<DishCategory>>();
+        public IDataStore<Ingredient> IngredientDataStore => DependencyService.Get<IDataStore<Ingredient>>();
 
         public string Title
         {

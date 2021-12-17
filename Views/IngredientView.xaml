@@ -3,10 +3,88 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:NyamNyamDesktopApp.Views"
+             xmlns:converters="clr-namespace:NyamNyamDesktopApp.Converters"
+             xmlns:local="clr-namespace:NyamNyamDesktopApp.Views" xmlns:viewsmodels="clr-namespace:NyamNyamDesktopApp.ViewsModels" d:DataContext="{d:DesignInstance Type=viewsmodels:IngredientViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" 
+             d:DesignWidth="800">
     <Grid>
-        <TextBlock Text="Ingredients"></TextBlock>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <converters:CentsToDollarConverter x:Key="CentsToDollar"></converters:CentsToDollarConverter>
+            <converters:DishColorConverter x:Key="DishColor"></converters:DishColorConverter>
+        </Grid.Resources>
+        <TextBlock Text="List of Ingredients"
+                   Style="{StaticResource HeaderBlock}"></TextBlock>
+        <TextBlock Text="{Binding TotalAvailableIngredientsPriceInCents, Converter={StaticResource CentsToDollar}, StringFormat={}Total available ingredients for the amount ($): {0:F2}}"
+                               Style="{StaticResource CommonBlock}"
+                   HorizontalAlignment="Right"
+                   Grid.Row="1"></TextBlock>
+        <ListView Grid.Row="2"
+                  ItemsSource="{Binding Ingredients}"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal"
+                               HorizontalAlignment="Center"></WrapPanel>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border Style="{StaticResource CommonBorder}">
+                        <Grid Width="300"
+                              Height="100">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="30" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Style="{StaticResource HeaderBlock}"
+                                       FontSize="15"
+                                       Text="{Binding IngredientName}"></TextBlock>
+                            <TextBlock Style="{StaticResource CommonBlock}"
+                                       FontStyle="Italic"
+                                       Grid.Row="1"
+                                       Text="{Binding PricePerUnitInCents, Converter={StaticResource CentsToDollar}, StringFormat={}Price: {0:F2}$}"></TextBlock>
+                            <Button Style="{StaticResource LinkButton}"
+                                    Content="Delete"
+                                    Grid.Row="2"></Button>
+                            <StackPanel Grid.Column="1"
+                                        HorizontalAlignment="Left"
+                                        Grid.RowSpan="3"
+                                        Orientation="Horizontal"
+                                        VerticalAlignment="Center">
+                                <TextBox Text="{Binding CountInStock}"
+                                         Width="30"
+                                         TextAlignment="Center"
+                                         VerticalAlignment="Center"></TextBox>
+                                <TextBlock Style="{StaticResource CommonBlock}"
+                                           Text="{Binding IngredientUnit.UnitName}"></TextBlock>
+                            </StackPanel>
+                            <UniformGrid Rows="2"
+                                         Grid.RowSpan="3"
+                                         Grid.Column="2">
+                                <Button Style="{StaticResource CommonButton}"
+                                        Content="+"
+                                        VerticalAlignment="Center"></Button>
+                                <Button Style="{StaticResource CommonButton}"
+                                        Content="-"
+                                        VerticalAlignment="Center"></Button>
+                            </UniformGrid>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </UserControl>
