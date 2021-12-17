@@ -13,26 +13,29 @@ namespace NyamNyamDesktopApp.Models
             {
                 return false;
             }
-            bool isPossibleToCook = GetIngredientsWithAvailabilityOfDish(dish).Count(i => !i.IsAvailable) == 0;
+            bool isPossibleToCook = GetIngredientsWithAvailabilityOfDish(dish, 1).Count(i => !i.IsAvailable) == 0;
             return isPossibleToCook;
         }
 
-        public static IEnumerable<ExtendedIngredient> GetIngredientsWithAvailabilityOfDish(Dish dish)
+        public static IEnumerable<ExtendedIngredient> GetIngredientsWithAvailabilityOfDish(Dish dish,
+                                                                                           int servingsCount)
         {
             NyamNyamBaseEntities db = new NyamNyamBaseEntities();
             return (from ds in dish.DishStage
                     join si in db.StageIngredient on ds.StageId equals si.DishStageId
                     join i in db.Ingredient on si.IngredientId equals i.IngredientId
-                    group si by new
-                    {
+                    group si by (
                         si.Ingredient,
                         si.Quantity,
-                        i.CountInStock,
-                    } into iq
+                        i.CountInStock
+                    ) into iq
                     select new ExtendedIngredient
                     (
-                        iq.Key.Ingredient,
-                        iq.Sum(stageIngredient => stageIngredient.Quantity) <= iq.Key.CountInStock
+                        iq.Sum(stageIngredient => stageIngredient.Quantity * servingsCount) <= iq.Key.CountInStock,
+                        iq.Key.Ingredient.IngredientName,
+                        iq.Key.CountInStock - iq.Sum(stageIngredient => stageIngredient.Quantity * servingsCount),
+                        iq.Key.Ingredient.IngredientUnit.UnitName,
+                        iq.Key.Ingredient.PricePerUnitInCents * servingsCount
                     )).ToList();
         }
     }

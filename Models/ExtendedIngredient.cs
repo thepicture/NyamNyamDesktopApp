@@ -1,16 +1,21 @@
-﻿using NyamNyamDesktopApp.Models.Entities;
-
-namespace NyamNyamDesktopApp.Models
+﻿namespace NyamNyamDesktopApp.Models
 {
     public class ExtendedIngredient
     {
-        public ExtendedIngredient(Ingredient ingredient, bool isAvailable)
+        public bool IsAvailable { get; }
+        public string Name { get; }
+        public decimal Quantity { get; }
+        public string Unit { get; }
+        public int Cost { get; }
+
+        public ExtendedIngredient(bool isAvailable, string name, decimal quantity, string unit, int cost)
         {
-            Ingredient = ingredient;
             IsAvailable = isAvailable;
+            Name = name;
+            Quantity = quantity < 0 ? 0 : quantity;
+            Unit = unit;
+            Cost = cost;
         }
 
-        public Ingredient Ingredient { get; }
-        public bool IsAvailable { get; }
     }
 }

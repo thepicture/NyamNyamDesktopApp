@@ -18,7 +18,7 @@ namespace NyamNyamDesktopApp.ViewsModels
         {
             Title = "Recipes";
             CurrentDish = dish;
-            Ingredients = DishIngredientsChecker.GetIngredientsWithAvailabilityOfDish(dish)
+            Ingredients = DishIngredientsChecker.GetIngredientsWithAvailabilityOfDish(dish, ServingsCount)
                                                 .ToList();
             int stageId = 1;
             CookingProcess = dish.DishStage.Select(d => stageId++ + ". " + d.ProcessDescription);
@@ -60,6 +60,8 @@ namespace NyamNyamDesktopApp.ViewsModels
         {
             ServingsCount--;
             TotalCostInCents = CurrentDish.FinalPriceInCents * ServingsCount;
+            Ingredients = DishIngredientsChecker.GetIngredientsWithAvailabilityOfDish(CurrentDish, ServingsCount)
+                                                .ToList();
         }
 
         private int _servingsCount = 1;
@@ -95,6 +97,8 @@ namespace NyamNyamDesktopApp.ViewsModels
         {
             ServingsCount++;
             TotalCostInCents = CurrentDish.FinalPriceInCents * ServingsCount;
+            Ingredients = DishIngredientsChecker.GetIngredientsWithAvailabilityOfDish(CurrentDish, ServingsCount)
+                                                .ToList();
         }
     }
 }

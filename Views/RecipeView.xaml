@@ -65,27 +65,40 @@
                            Style="{StaticResource HeaderBlock}"></TextBlock>
                         <DataGrid ItemsSource="{Binding Ingredients}"
                                   AutoGenerateColumns="False"
-                                  ColumnWidth="*"
                                   IsReadOnly="True"
                                   Margin="5"
                                   Height="200">
                             <DataGrid.Columns>
-                                <DataGridTemplateColumn>
+                                <DataGridTemplateColumn Width="auto">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <RadioButton IsChecked="{Binding IsAvailable, Mode=OneWay}"
-                                                         IsHitTestVisible="False"></RadioButton>
+                                                         IsHitTestVisible="False">
+                                                <RadioButton.Style>
+                                                    <Style TargetType="RadioButton">
+                                                        <Setter Property="Background" Value="Green" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsAvailable}"
+                                                                     Value="False">
+                                                                <Setter Property="Background" Value="Red" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </RadioButton.Style>
+                                            </RadioButton>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
                                 <DataGridTextColumn Header="Name"
-                                                    Binding="{Binding Ingredient.IngredientName}"></DataGridTextColumn>
+                                                    Width="auto"
+                                                    Binding="{Binding Name}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="Quantity"
-                                                    Binding="{Binding Ingredient.CountInStock}"></DataGridTextColumn>
+                                                    Width="auto"
+                                                    Binding="{Binding Quantity}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="Unit"
-                                                    Binding="{Binding Ingredient.IngredientUnit.UnitName}"></DataGridTextColumn>
+                                                    Binding="{Binding Unit}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="Cost"
-                                                    Binding="{Binding Ingredient.PricePerUnitInCents, Converter={StaticResource CentsToDollar}, StringFormat={}{0:F2}$}"></DataGridTextColumn>
+                                                    Binding="{Binding Cost, Converter={StaticResource CentsToDollar}, StringFormat={}{0:F2}$}"></DataGridTextColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>
