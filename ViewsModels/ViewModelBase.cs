@@ -1,7 +1,9 @@
-﻿using NyamNyamDesktopApp.Models.Entities;
+﻿using NyamNyamDesktopApp.Commands;
+using NyamNyamDesktopApp.Models.Entities;
 using NyamNyamDesktopApp.Services;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 
 namespace NyamNyamDesktopApp.ViewsModels
 {
@@ -47,6 +49,26 @@ namespace NyamNyamDesktopApp.ViewsModels
             }
 
             return false;
+        }
+
+        private RelayCommand _goBackCommand;
+
+        public ICommand GoBackCommand
+        {
+            get
+            {
+                if (_goBackCommand == null)
+                {
+                    _goBackCommand = new RelayCommand(GoBack);
+                }
+
+                return _goBackCommand;
+            }
+        }
+
+        private void GoBack(object commandParameter)
+        {
+            DependencyService.Get<INavigationService>().GoBack();
         }
     }
 }

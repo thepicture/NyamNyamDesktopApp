@@ -31,18 +31,23 @@
                                Style="{StaticResource CommonBlock}"></TextBlock>
                     <Button Style="{StaticResource CommonButton}"
                             Width="20"
-                            Content="-"></Button>
+                            Content="-"
+                            Command="{Binding LessServingsCommand}"></Button>
                     <TextBox Style="{StaticResource CommonBox}"
-                             Width="40"></TextBox>
+                             Width="40"
+                             TextAlignment="Center"
+                             IsHitTestVisible="False"
+                             Text="{Binding ServingsCount}"></TextBox>
                     <Button Style="{StaticResource CommonButton}"
                             Width="20"
-                            Content="+"></Button>
+                            Content="+"
+                            Command="{Binding MoreServingsCommand}"></Button>
                 </StackPanel>
             </UniformGrid>
             <UniformGrid Columns="2">
                 <TextBlock Text="{Binding CurrentDish, StringFormat={}Cooking time: {0} min., Converter={StaticResource DishTimeInMinutes}}"
                                Style="{StaticResource CommonBlock}"></TextBlock>
-                <TextBlock Text="{Binding CurrentDish.FinalPriceInCents, StringFormat={}Total cost: {0:F2}$, Converter={StaticResource CentsToDollar}}"
+                <TextBlock Text="{Binding TotalCostInCents, StringFormat={}Total cost: {0:F2}$, Converter={StaticResource CentsToDollar}}"
                                Style="{StaticResource CommonBlock}"></TextBlock>
             </UniformGrid>
             <TextBlock Style="{StaticResource CommonBlock}"
@@ -110,6 +115,7 @@
                 Grid.Row="2">
             <Button Content="Back"
                 Style="{StaticResource CommonButton}"
+                Command="{Binding GoBackCommand}"
                 HorizontalAlignment="Center"
                 Width="200"></Button>
         </Border>
