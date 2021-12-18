@@ -3,6 +3,9 @@ using System.Windows.Input;
 
 namespace NyamNyamDesktopApp.Behaviors
 {
+    /// <summary>
+    /// Implements the methods to attach a behavior to a framework element.
+    /// </summary>
     public static class AttachedBehaviors
     {
         public static DependencyProperty LoadedCommandProperty

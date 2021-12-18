@@ -4,14 +4,26 @@ using System.Windows.Data;
 
 namespace NyamNyamDesktopApp.Converters
 {
-    class CentsToDollarConverter : IValueConverter
+    /// <summary>
+    /// Provides a way to convert a cents value to a dollars exchange rate.
+    /// </summary>
+    public class CentsToDollarConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        private const int centsInOneDollar = 100;
+
+        public object Convert(object value,
+                              Type targetType,
+                              object parameter,
+                              CultureInfo culture)
         {
-            return System.Convert.ToDouble(value) * 1.0 / 100;
+            double cents = System.Convert.ToDouble(value);
+            return cents / centsInOneDollar;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object ConvertBack(object value,
+                                  Type targetType,
+                                  object parameter,
+                                  CultureInfo culture)
         {
             throw new NotImplementedException();
         }

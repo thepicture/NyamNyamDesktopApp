@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace NyamNyamDesktopApp.Services
 {
+    /// <summary>
+    /// Implements methods for navigating through view models.
+    /// </summary>
     public class ViewModelNavigationService : INavigationService
     {
         public Stack<object> NavigationJournal { get; }

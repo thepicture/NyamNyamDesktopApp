@@ -18,10 +18,15 @@ namespace NyamNyamDesktopApp.ViewsModels
         {
             Title = "Recipes";
             CurrentDish = dish;
-            Ingredients = DishIngredientsChecker.GetIngredientsWithAvailabilityOfDish(dish, ServingsCount)
+            Ingredients = IngredientToIngredientWithAvailabilityConverter
+                .ConvertDishIngredientsToIngredientsWithAvailability(dish,
+                                                                     ServingsCount)
                                                 .ToList();
             int stageId = 1;
-            CookingProcess = dish.DishStage.Select(d => stageId++ + ". " + d.ProcessDescription);
+            CookingProcess = dish.DishStage.Select(d =>
+            {
+                return stageId++ + ". " + d.ProcessDescription;
+            });
             TotalCostInCents = dish.FinalPriceInCents;
         }
 
@@ -49,7 +54,8 @@ namespace NyamNyamDesktopApp.ViewsModels
             {
                 if (_lessServingsCommand == null)
                 {
-                    _lessServingsCommand = new RelayCommand(LessServings, obj => ServingsCount > 1);
+                    _lessServingsCommand = new RelayCommand(LessServings,
+                                                            obj => ServingsCount > 1);
                 }
 
                 return _lessServingsCommand;
@@ -60,7 +66,9 @@ namespace NyamNyamDesktopApp.ViewsModels
         {
             ServingsCount--;
             TotalCostInCents = CurrentDish.FinalPriceInCents * ServingsCount;
-            Ingredients = DishIngredientsChecker.GetIngredientsWithAvailabilityOfDish(CurrentDish, ServingsCount)
+            Ingredients = IngredientToIngredientWithAvailabilityConverter
+                .ConvertDishIngredientsToIngredientsWithAvailability(CurrentDish,
+                                                                     ServingsCount)
                                                 .ToList();
         }
 
@@ -97,7 +105,9 @@ namespace NyamNyamDesktopApp.ViewsModels
         {
             ServingsCount++;
             TotalCostInCents = CurrentDish.FinalPriceInCents * ServingsCount;
-            Ingredients = DishIngredientsChecker.GetIngredientsWithAvailabilityOfDish(CurrentDish, ServingsCount)
+            Ingredients = IngredientToIngredientWithAvailabilityConverter
+                .ConvertDishIngredientsToIngredientsWithAvailability(CurrentDish,
+                                                                     ServingsCount)
                                                 .ToList();
         }
     }

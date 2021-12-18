@@ -18,9 +18,12 @@ namespace NyamNyamDesktopApp.ViewsModels
             _dbFactory = DependencyService.Get<NyamNyamContextFactory>();
         }
 
-        private void CalculateTotalPrice()
+        private void CalculateTotalPriceOfAllIngredients()
         {
-            TotalAvailableIngredientsPriceInCents = Ingredients.Sum(i => i.CountInStock * i.PricePerUnitInCents);
+            TotalAvailableIngredientsPriceInCents = Ingredients.Sum(i =>
+            {
+                return i.CountInStock * i.PricePerUnitInCents;
+            });
         }
 
         private IEnumerable<Ingredient> _ingredients;
@@ -54,11 +57,17 @@ namespace NyamNyamDesktopApp.ViewsModels
             }
         }
 
+        /// <summary>
+        /// Performs filling <see cref="Ingredients"/> 
+        /// with the <see cref="NyamNyamBaseEntities"/>
+        /// <see cref="DbSet"/>.
+        /// </summary>
+        /// <param name="commandParameter">The command parameter.</param>
         private async void PerformLoadIngredients(object commandParameter)
         {
             NyamNyamBaseEntities context = _dbFactory.Create();
             Ingredients = await context.Ingredient.ToListAsync();
-            CalculateTotalPrice();
+            CalculateTotalPriceOfAllIngredients();
         }
     }
 }

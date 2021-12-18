@@ -13,6 +13,11 @@ namespace NyamNyamDesktopApp.ViewsModels
             DependencyService.Get<INavigationService>().Navigated += OnNavigated;
         }
 
+        /// <summary>
+        /// Occurs when the navigation state 
+        /// between <see cref="INavigationService"/>'s 
+        /// navigation objects has changed.
+        /// </summary>
         private void OnNavigated()
         {
             OnPropertyChanged(nameof(SelectedViewModel));

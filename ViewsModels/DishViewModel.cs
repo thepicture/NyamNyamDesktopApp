@@ -22,14 +22,17 @@ namespace NyamNyamDesktopApp.ViewsModels
         public DishViewModel()
         {
             Title = "Dishes";
-            _databaseFactory = DependencyService.Get<IDbContextFactory<NyamNyamBaseEntities>>();
+            _databaseFactory = DependencyService
+                               .Get<IDbContextFactory<NyamNyamBaseEntities>>();
         }
 
         private async void GetDishCategories()
         {
             using (NyamNyamBaseEntities context = _databaseFactory.Create())
             {
-                IEnumerable<DishCategory> extendedCategories = await context.DishCategory.ToListAsync();
+                IEnumerable<DishCategory> extendedCategories =
+                    await context.DishCategory
+                                 .ToListAsync();
                 extendedCategories = extendedCategories.Prepend(new DishCategory
                 {
                     CategoryName = "All categories"
@@ -107,17 +110,34 @@ namespace NyamNyamDesktopApp.ViewsModels
 
             if (CurrentCategory.CategoryName != "All categories")
             {
-                dishesFromDatabase = dishesFromDatabase.Where(d => d.DishCategory.CategoryId == CurrentCategory.CategoryId);
+                dishesFromDatabase = dishesFromDatabase.Where(d =>
+                {
+                    return d.DishCategory.CategoryId == CurrentCategory.CategoryId;
+                });
             }
             if (!string.IsNullOrWhiteSpace(NameOrDescriptionSearchText))
             {
-                dishesFromDatabase = dishesFromDatabase.Where(d => d.DishName.ToLower().Contains(NameOrDescriptionSearchText) || d.Description.ToLower().Contains(NameOrDescriptionSearchText));
+                dishesFromDatabase = dishesFromDatabase.Where(d =>
+                {
+                    return d.DishName.ToLower()
+                                     .Contains(NameOrDescriptionSearchText)
+                                     || d.Description
+                                         .ToLower()
+                                         .Contains(NameOrDescriptionSearchText);
+                });
             }
             if (AreOnlyAvailableIngredientsDishes)
             {
-                dishesFromDatabase = dishesFromDatabase.Where(d => DishIngredientsChecker.IsPossibleToCook(d));
+                dishesFromDatabase = dishesFromDatabase.Where(d =>
+                {
+                    return DishCookPosibilityChecker.IsPossibleToCook(d);
+                });
             }
-            dishesFromDatabase = dishesFromDatabase.Where(d => d.FinalPriceInCents >= MinPriceInDollars * 100 && d.FinalPriceInCents <= MaxPriceInDollars * 100);
+            dishesFromDatabase = dishesFromDatabase.Where(d =>
+            {
+                return d.FinalPriceInCents >= MinPriceInDollars * 100
+                       && d.FinalPriceInCents <= MaxPriceInDollars * 100;
+            });
 
             Dishes = dishesFromDatabase;
         }
@@ -130,17 +150,23 @@ namespace NyamNyamDesktopApp.ViewsModels
             {
                 if (navigateToDishRecipeCommand == null)
                 {
-                    navigateToDishRecipeCommand = new RelayCommand(NavigateToDishRecipe);
+                    navigateToDishRecipeCommand =
+                        new RelayCommand(NavigateToDishRecipe);
                 }
 
                 return navigateToDishRecipeCommand;
             }
         }
 
+        /// <summary>
+        /// Performs navigation to dish recipe view model.
+        /// </summary>
+        /// <param name="commandParameter">The command parameter.</param>
         private void NavigateToDishRecipe(object commandParameter)
         {
             Dish dish = commandParameter as Dish;
-            DependencyService.Get<INavigationService>().NavigateWithParameter<RecipeViewModel>(dish);
+            DependencyService.Get<INavigationService>()
+                             .NavigateWithParameter<RecipeViewModel>(dish);
         }
 
         private RelayCommand loadDishesCommand;
@@ -158,6 +184,12 @@ namespace NyamNyamDesktopApp.ViewsModels
             }
         }
 
+        /// <summary>
+        /// Performs filling <see cref="Dishes"/> 
+        /// with the <see cref="NyamNyamBaseEntities"/>
+        /// <see cref="DbSet"/>.
+        /// </summary>
+        /// <param name="commandParameter">The command parameter.</param>
         private async void LoadDishesAndCategories(object commandParameter)
         {
             NyamNyamBaseEntities context = _databaseFactory.Create();

@@ -3,6 +3,9 @@ using System.Windows.Input;
 
 namespace NyamNyamDesktopApp.Commands
 {
+    /// <summary>
+    /// Implements the methods for command relaying.
+    /// </summary>
     public class RelayCommand : ICommand
     {
         public event EventHandler CanExecuteChanged
@@ -27,6 +30,9 @@ namespace NyamNyamDesktopApp.Commands
 
         public RelayCommand(Action<object> execute) : this(execute, null) { }
 
+        /// <summary>
+        /// Occurs when an execution needs to be changed.
+        /// </summary>
         public void OnExecuteChanged()
         {
             CommandManager.InvalidateRequerySuggested();

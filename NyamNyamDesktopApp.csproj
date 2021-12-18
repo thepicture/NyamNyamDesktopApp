@@ -72,7 +72,7 @@
     <Compile Include="Converters\DishColorConverter.cs" />
     <Compile Include="Converters\DishToTimeInMinutesConverter.cs" />
     <Compile Include="Behaviors\AttachedBehaviors.cs" />
-    <Compile Include="Models\DishIngredientsChecker.cs" />
+    <Compile Include="Models\DishCookPosibilityChecker.cs" />
     <Compile Include="Models\Entities\Dish.cs">
       <DependentUpon>NyamModel.tt</DependentUpon>
     </Compile>
@@ -109,6 +109,7 @@
     <Compile Include="Models\ExtendedIngredient.cs" />
     <Compile Include="Models\Factories\IDbContextFactory.cs" />
     <Compile Include="Models\Factories\NyamNyamContextFactory.cs" />
+    <Compile Include="Models\IngredientToIngredientWithAvailabilityConverter.cs" />
     <Compile Include="Services\DependencyService.cs" />
     <Compile Include="Services\INavigationService.cs" />
     <Compile Include="Services\ViewModelNavigationService.cs" />

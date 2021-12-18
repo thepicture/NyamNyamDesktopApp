@@ -1,5 +1,4 @@
 ﻿using NyamNyamDesktopApp.Commands;
-using NyamNyamDesktopApp.Models.Entities;
 using NyamNyamDesktopApp.Services;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -31,17 +30,32 @@ namespace NyamNyamDesktopApp.ViewsModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Occurs when property has changed.
+        /// </summary>
+        /// <param name="propertyName">A caller member name or a property name.</param>
         public void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
+        /// <summary>
+        /// Sets the value of an object's reference field.
+        /// </summary>
+        /// <typeparam name="T">The type of a new value.</typeparam>
+        /// <param name="field">The object's reference field.</param>
+        /// <param name="newValue">The new value.</param>
+        /// <param name="propertyName">A caller member name or a property name.</param>
+        /// <returns></returns>
+        protected bool SetProperty<T>(ref T field,
+                                      T newValue,
+                                      [CallerMemberName] string propertyName = null)
         {
             if (!Equals(field, newValue))
             {
                 field = newValue;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+                PropertyChanged?.Invoke(this,
+                                        new PropertyChangedEventArgs(propertyName));
                 return true;
             }
 
@@ -63,6 +77,11 @@ namespace NyamNyamDesktopApp.ViewsModels
             }
         }
 
+        /// <summary>
+        /// Instructs <see cref="INavigationService"/> 
+        /// to navigate back.
+        /// </summary>
+        /// <param name="commandParameter">The command parameter.</param>
         private void GoBack(object commandParameter)
         {
             DependencyService.Get<INavigationService>().GoBack();
