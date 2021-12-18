@@ -1,4 +1,5 @@
 ﻿using NyamNyamDesktopApp.Models.Entities;
+using NyamNyamDesktopApp.Models.Factories;
 using NyamNyamDesktopApp.Services;
 using NyamNyamDesktopApp.ViewsModels;
 using System.Windows;
@@ -16,9 +17,7 @@ namespace NyamNyamDesktopApp
 
             DependencyService.Register<ViewModelNavigationService>();
             DependencyService.Register<NyamNyamBaseEntities>();
-            DependencyService.Register<DishDataStore>();
-            DependencyService.Register<DishCategoryDataStore>();
-            DependencyService.Register<IngredientDataStore>();
+            DependencyService.Register<NyamNyamContextFactory>();
 
             DependencyService.Get<INavigationService>().Navigate<DishViewModel>();
 

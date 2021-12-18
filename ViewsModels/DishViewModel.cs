@@ -1,10 +1,11 @@
 ﻿using NyamNyamDesktopApp.Commands;
 using NyamNyamDesktopApp.Models;
 using NyamNyamDesktopApp.Models.Entities;
+using NyamNyamDesktopApp.Models.Factories;
 using NyamNyamDesktopApp.Services;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace NyamNyamDesktopApp.ViewsModels
@@ -17,20 +18,25 @@ namespace NyamNyamDesktopApp.ViewsModels
         private string _nameOrDescriptionSearchText = string.Empty;
         private double _minPriceInDollars = 1;
         private double _maxPriceInDollars = 100;
+        private readonly IDbContextFactory<NyamNyamBaseEntities> _databaseFactory;
         public DishViewModel()
         {
             Title = "Dishes";
+            _databaseFactory = DependencyService.Get<IDbContextFactory<NyamNyamBaseEntities>>();
         }
 
         private async void GetDishCategories()
         {
-            IEnumerable<DishCategory> extendedCategories = await DishCategoryDataStore.GetAllASync();
-            extendedCategories = extendedCategories.ToList().Prepend(new DishCategory
+            using (NyamNyamBaseEntities context = _databaseFactory.Create())
             {
-                CategoryName = "All categories"
-            });
-            Categories = extendedCategories;
-            CurrentCategory = extendedCategories.First();
+                IEnumerable<DishCategory> extendedCategories = await context.DishCategory.ToListAsync();
+                extendedCategories = extendedCategories.Prepend(new DishCategory
+                {
+                    CategoryName = "All categories"
+                });
+                Categories = extendedCategories;
+                CurrentCategory = extendedCategories.First();
+            }
         }
 
         public IEnumerable<Dish> Dishes
@@ -49,8 +55,8 @@ namespace NyamNyamDesktopApp.ViewsModels
             get => _currentCategory;
             set
             {
-                SetProperty(ref _currentCategory, value);
-                Task.Run(FilterDishes);
+                _ = SetProperty(ref _currentCategory, value);
+                FilterDishes();
             }
         }
 
@@ -59,14 +65,9 @@ namespace NyamNyamDesktopApp.ViewsModels
             get => _nameOrDescriptionSearchText;
             set
             {
-                SetProperty(ref _nameOrDescriptionSearchText, value);
-                _ = Task.Run(FilterDishes);
+                _ = SetProperty(ref _nameOrDescriptionSearchText, value);
+                FilterDishes();
             }
-        }
-
-        private async void GetDishes()
-        {
-            Dishes = await DishDataStore.GetAllASync();
         }
 
         private bool _areOnlyAvailableIngredientsDishes = false;
@@ -76,8 +77,8 @@ namespace NyamNyamDesktopApp.ViewsModels
             get => _areOnlyAvailableIngredientsDishes;
             set
             {
-                SetProperty(ref _areOnlyAvailableIngredientsDishes, value);
-                _ = Task.Run(FilterDishes);
+                _ = SetProperty(ref _areOnlyAvailableIngredientsDishes, value);
+                FilterDishes();
             }
         }
         public double MinPriceInDollars
@@ -85,8 +86,8 @@ namespace NyamNyamDesktopApp.ViewsModels
             get => _minPriceInDollars;
             set
             {
-                SetProperty(ref _minPriceInDollars, value);
-                _ = Task.Run(FilterDishes);
+                _ = SetProperty(ref _minPriceInDollars, value);
+                FilterDishes();
             }
         }
         public double MaxPriceInDollars
@@ -95,13 +96,14 @@ namespace NyamNyamDesktopApp.ViewsModels
             set
             {
                 SetProperty(ref _maxPriceInDollars, value);
-                _ = Task.Run(FilterDishes);
+                FilterDishes();
             }
         }
 
         private async void FilterDishes()
         {
-            IEnumerable<Dish> dishesFromDatabase = await DishDataStore.GetAllASync();
+            NyamNyamBaseEntities context = _databaseFactory.Create();
+            IEnumerable<Dish> dishesFromDatabase = await context.Dish.ToListAsync();
 
             if (CurrentCategory.CategoryName != "All categories")
             {
@@ -149,16 +151,18 @@ namespace NyamNyamDesktopApp.ViewsModels
             {
                 if (loadDishesCommand == null)
                 {
-                    loadDishesCommand = new RelayCommand(LoadDishes);
+                    loadDishesCommand = new RelayCommand(LoadDishesAndCategories);
                 }
 
                 return loadDishesCommand;
             }
         }
 
-        private void LoadDishes(object commandParameter)
+        private async void LoadDishesAndCategories(object commandParameter)
         {
-            _ = Task.Run(() => GetDishes()).ContinueWith(t => GetDishCategories());
+            NyamNyamBaseEntities context = _databaseFactory.Create();
+            Dishes = await context.Dish.ToListAsync();
+            GetDishCategories();
         }
     }
 }

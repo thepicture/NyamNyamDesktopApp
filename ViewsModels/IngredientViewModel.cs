@@ -1,6 +1,9 @@
 ﻿using NyamNyamDesktopApp.Commands;
 using NyamNyamDesktopApp.Models.Entities;
+using NyamNyamDesktopApp.Models.Factories;
+using NyamNyamDesktopApp.Services;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Windows.Input;
 
@@ -8,9 +11,11 @@ namespace NyamNyamDesktopApp.ViewsModels
 {
     public class IngredientViewModel : ViewModelBase
     {
+        private readonly IDbContextFactory<NyamNyamBaseEntities> _dbFactory;
         public IngredientViewModel()
         {
             Title = "Ingredients";
+            _dbFactory = DependencyService.Get<NyamNyamContextFactory>();
         }
 
         private void CalculateTotalPrice()
@@ -51,7 +56,8 @@ namespace NyamNyamDesktopApp.ViewsModels
 
         private async void PerformLoadIngredients(object commandParameter)
         {
-            Ingredients = await IngredientDataStore.GetAllASync();
+            NyamNyamBaseEntities context = _dbFactory.Create();
+            Ingredients = await context.Ingredient.ToListAsync();
             CalculateTotalPrice();
         }
     }
