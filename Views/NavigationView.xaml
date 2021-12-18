@@ -34,6 +34,9 @@
                         Command="{Binding NavigateToIngredients}"/>
                 <Button Content="Orders"
                         Style="{StaticResource LinkButton}"/>
+                <Button Content="Add a new dish"
+                        Style="{StaticResource LinkButton}"
+                        Command="{Binding GoToAddNewDishCommand}"/>
             </StackPanel>
         </Border>
         <Border Style="{StaticResource CommonBorder}"
@@ -48,6 +51,9 @@
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type viewsmodels:RecipeViewModel}">
                         <views:RecipeView></views:RecipeView>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type viewsmodels:AddDishViewModel}">
+                        <views:AddDishView></views:AddDishView>
                     </DataTemplate>
                 </ContentControl.Resources>
             </ContentControl>

@@ -1,5 +1,6 @@
 ﻿using NyamNyamDesktopApp.Commands;
 using NyamNyamDesktopApp.Services;
+using System.Linq;
 using System.Windows.Input;
 
 namespace NyamNyamDesktopApp.ViewsModels
@@ -63,6 +64,28 @@ namespace NyamNyamDesktopApp.ViewsModels
         private void PerformNavigateToIngredients(object commandParameter)
         {
             DependencyService.Get<INavigationService>().Navigate<IngredientViewModel>();
+        }
+
+        private RelayCommand goToAddNewDishCommand;
+
+        public ICommand GoToAddNewDishCommand
+        {
+            get
+            {
+                if (goToAddNewDishCommand == null)
+                {
+                    goToAddNewDishCommand = new RelayCommand(GoToAddNewDish);
+                }
+
+                return goToAddNewDishCommand;
+            }
+        }
+
+        private void GoToAddNewDish(object commandParameter)
+        {
+#if DEBUG
+            DependencyService.Get<INavigationService>().NavigateWithParameter<AddDishViewModel>(DependencyService.Get<NyamNyamDesktopApp.Models.Factories.NyamNyamContextFactory>().Create().Dish.First());
+# endif
         }
     }
 }

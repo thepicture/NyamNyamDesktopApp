@@ -16,7 +16,7 @@ namespace NyamNyamDesktopApp.Services
         /// <summary>
         /// Registers an implementation type of an abstraction.
         /// </summary>
-        /// <typeparam name="T">The implementation type of an asbtraction.</typeparam>
+        /// <typeparam name="T">The implementation type of an abstraction.</typeparam>
         public static void Register<T>()
         {
             _implementations.Add(typeof(T), Activator.CreateInstance(typeof(T)));
@@ -24,10 +24,10 @@ namespace NyamNyamDesktopApp.Services
 
         /// <summary>
         /// Gets an implementation type of an abstraction 
-        /// by specifying the inteface.
+        /// by specifying the interface.
         /// </summary>
         /// <exception cref="ApplicationException">
-        /// Throws when no implementation found.
+        /// Throws when no implementation was found.
         /// </exception>
         /// <typeparam name="T">The interface type.</typeparam>
         /// <returns>The implementation type.</returns>

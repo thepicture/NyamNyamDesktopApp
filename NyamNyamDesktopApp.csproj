@@ -47,6 +47,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
@@ -110,20 +111,33 @@
     <Compile Include="Models\Factories\IDbContextFactory.cs" />
     <Compile Include="Models\Factories\NyamNyamContextFactory.cs" />
     <Compile Include="Models\IngredientToIngredientWithAvailabilityConverter.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Services\DependencyService.cs" />
     <Compile Include="Services\IFeedbackService.cs" />
     <Compile Include="Services\INavigationService.cs" />
     <Compile Include="Services\MessageBoxFeedbackService.cs" />
     <Compile Include="Services\ViewModelNavigationService.cs" />
+    <Compile Include="ViewsModels\AddDishViewModel.cs" />
     <Compile Include="ViewsModels\DishViewModel.cs" />
     <Compile Include="ViewsModels\IngredientTemplateViewModel.cs" />
     <Compile Include="ViewsModels\IngredientViewModel.cs" />
     <Compile Include="ViewsModels\NavigationViewModel.cs" />
     <Compile Include="ViewsModels\RecipeViewModel.cs" />
     <Compile Include="ViewsModels\ViewModelBase.cs" />
+    <Compile Include="Views\AddDishView.xaml.cs">
+      <DependentUpon>AddDishView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RecipeView.xaml.cs">
       <DependentUpon>RecipeView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\AddDishView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DishView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -158,11 +172,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -206,6 +215,7 @@
       <DependentUpon>NyamModel.edmx</DependentUpon>
       <LastGenOutput>NyamModel.cs</LastGenOutput>
     </Content>
+    <Resource Include="Resources\NyamNyam.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

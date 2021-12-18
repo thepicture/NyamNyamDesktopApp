@@ -1,0 +1,170 @@
+﻿<UserControl x:Class="NyamNyamDesktopApp.Views.AddDishView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NyamNyamDesktopApp.Views"
+             xmlns:viewsmodels="clr-namespace:NyamNyamDesktopApp.ViewsModels"
+             xmlns:converters="clr-namespace:NyamNyamDesktopApp.Converters"
+             d:DataContext="{d:DesignInstance Type=viewsmodels:AddDishViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="1550"
+             d:DesignWidth="800">
+    <Border Style="{StaticResource CommonBorder}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock Text="Add a new dish"
+                   Style="{StaticResource HeaderBlock}"></TextBlock>
+            <TextBlock Text="To add a new dish, fill the blanks below."
+                               Style="{StaticResource CommonBlock}"
+                   HorizontalAlignment="Right"
+                   Grid.Row="1"></TextBlock>
+            <Border Grid.Row="2"
+                    Style="{StaticResource CommonBorder}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+                        <StackPanel.Resources>
+                            <converters:CentsToDollarConverter x:Key="CentsToDollar"></converters:CentsToDollarConverter>
+                        </StackPanel.Resources>
+                        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+                            <TextBlock Text="Dish name"
+                   Style="{StaticResource CommonBlock}"></TextBlock>
+                            <TextBox Style="{StaticResource CommonBox}"
+                 Text="{Binding CurrentDish.DishName}"
+                     MaxLength="100"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+                            <TextBlock Text="Base servings"
+                   Style="{StaticResource CommonBlock}"></TextBlock>
+                            <TextBox Style="{StaticResource CommonBox}"
+                 Text="{Binding CurrentDish.BaseServings}"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+                            <TextBlock Text="Category"
+                   Style="{StaticResource CommonBlock}"></TextBlock>
+                            <ComboBox Style="{StaticResource CommonComboBox}"
+                      SelectedValue="{Binding CurrentDishCategory}"
+                      ItemsSource="{Binding DishCategories}"
+                      DisplayMemberPath="CategoryName"></ComboBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+                            <TextBlock Text="Source recipe link"
+                   Style="{StaticResource CommonBlock}"></TextBlock>
+                            <TextBox Style="{StaticResource CommonBox}"
+                 Text="{Binding CurrentDish.SourceRecipeLink}"
+                     MaxLength="1024"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+                            <TextBlock Text="Description"
+                       Style="{StaticResource CommonBlock}"></TextBlock>
+                            <TextBox Style="{StaticResource CommonBox}"
+                     Text="{Binding CurrentDish.DishName}"
+                     Height="300"
+                     TextWrapping="Wrap"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+                            <TextBlock Text="Final price in dollars"
+                   Style="{StaticResource CommonBlock}"></TextBlock>
+                            <TextBox Style="{StaticResource CommonBox}"
+                         Text="{Binding TotalPriceInCents, FallbackValue=0, Converter={StaticResource CentsToDollar}}"
+                         IsHitTestVisible="False"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+                            <TextBlock Text="Image"
+                   Style="{StaticResource CommonBlock}"></TextBlock>
+                            <Image Source="{Binding CurrentDish.BinaryImage, TargetNullValue='./../../Resources/NyamNyam.png'}"
+                       Width="200"
+                       Height="200"
+                       Stretch="UniformToFill"
+                       Margin="5"></Image>
+                        </StackPanel>
+                        <Button Style="{StaticResource CommonButton}"
+                    Content="Select image ..."
+                    HorizontalAlignment="Right"
+                    Width="200"></Button>
+
+                        <!--Ingredient stages.-->
+                        <GroupBox Header="Dish stages">
+                            <StackPanel>
+                                <Button Content="Add a new stage"
+                                        Style="{StaticResource CommonButton}"></Button>
+                                <ListView ItemsSource="{Binding CurrentDish.DishStage}">
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <Setter Property="HorizontalContentAlignment" 
+                                                    Value="Stretch" />
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <GroupBox Header="Stage N">
+                                                <StackPanel>
+                                                    <Button Content="Delete stage from dish"
+                                                        Style="{StaticResource CommonButton}"></Button>
+                                                    <TextBlock Text="{Binding ProcessDescription}"
+                                                           TextWrapping="Wrap"
+                                                           Style="{StaticResource CommonBlock}"></TextBlock>
+                                                    <GroupBox Header="Stage ingredients">
+                                                        <ListView ItemsSource="{Binding StageIngredient}">
+                                                            <ListView.ItemContainerStyle>
+                                                                <Style TargetType="ListViewItem">
+                                                                    <Setter Property="HorizontalContentAlignment" 
+                                                                            Value="Stretch" />
+                                                                </Style>
+                                                            </ListView.ItemContainerStyle>
+                                                            <ListView.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel Orientation="Horizontal" 
+                                                                                HorizontalAlignment="Right">
+                                                                        <TextBlock Text="{Binding Ingredient.IngredientName,StringFormat={}Ingredient name: {0}}"
+                                                                           Style="{StaticResource CommonBlock}"></TextBlock>
+                                                                        <TextBlock Text="Quantity: "
+                                                                               Style="{StaticResource CommonBlock}"></TextBlock>
+                                                                        <TextBox Text="{Binding Quantity}"
+                                                                             Width="200"
+                                                                             Style="{StaticResource CommonBox}"></TextBox>
+                                                                        <Button Style="{StaticResource CommonButton}"
+                                                                            Content="Delete from dish"></Button>
+                                                                    </StackPanel>
+                                                                </DataTemplate>
+                                                            </ListView.ItemTemplate>
+                                                        </ListView>
+                                                    </GroupBox>
+                                                </StackPanel>
+                                            </GroupBox>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </StackPanel>
+                        </GroupBox>
+                        <!--End of ingredient stages.-->
+
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Add a new dish"
+                    Style="{StaticResource CommonButton}"
+                    Width="200"
+                    HorizontalAlignment="Right"></Button>
+                            <Button Content="Cancel and go back"
+                    Style="{StaticResource CommonButton}"
+                    Width="200"
+                    HorizontalAlignment="Right"></Button>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>
