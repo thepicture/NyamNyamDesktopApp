@@ -1,8 +1,8 @@
-﻿using NyamNyamDesktopApp.Models.Entities;
-using System;
+﻿using NyamNyamDesktopApp.Commands;
+using NyamNyamDesktopApp.Models.Entities;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace NyamNyamDesktopApp.ViewsModels
 {
@@ -11,18 +11,11 @@ namespace NyamNyamDesktopApp.ViewsModels
         public IngredientViewModel()
         {
             Title = "Ingredients";
-            _ = Task.Run(LoadIngredients);
         }
 
         private void CalculateTotalPrice()
         {
             TotalAvailableIngredientsPriceInCents = Ingredients.Sum(i => i.CountInStock * i.PricePerUnitInCents);
-        }
-
-        private async void LoadIngredients()
-        {
-            Ingredients = await IngredientDataStore.GetAllASync();
-            CalculateTotalPrice();
         }
 
         private IEnumerable<Ingredient> _ingredients;
@@ -39,6 +32,27 @@ namespace NyamNyamDesktopApp.ViewsModels
         {
             get => _totalAvailableIngredientsPriceInCents;
             set => SetProperty(ref _totalAvailableIngredientsPriceInCents, value);
+        }
+
+        private RelayCommand loadIngredients;
+
+        public ICommand LoadIngredients
+        {
+            get
+            {
+                if (loadIngredients == null)
+                {
+                    loadIngredients = new RelayCommand(PerformLoadIngredients);
+                }
+
+                return loadIngredients;
+            }
+        }
+
+        private async void PerformLoadIngredients(object commandParameter)
+        {
+            Ingredients = await IngredientDataStore.GetAllASync();
+            CalculateTotalPrice();
         }
     }
 }

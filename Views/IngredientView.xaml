@@ -4,7 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converters="clr-namespace:NyamNyamDesktopApp.Converters"
-             xmlns:local="clr-namespace:NyamNyamDesktopApp.Views" xmlns:viewsmodels="clr-namespace:NyamNyamDesktopApp.ViewsModels" d:DataContext="{d:DesignInstance Type=viewsmodels:IngredientViewModel}"
+             xmlns:behaviors="clr-namespace:NyamNyamDesktopApp.Behaviors"
+             behaviors:AttachedBehaviors.LoadedCommand="{Binding LoadIngredients}"
+             xmlns:local="clr-namespace:NyamNyamDesktopApp.Views" 
+             xmlns:viewsmodels="clr-namespace:NyamNyamDesktopApp.ViewsModels" d:DataContext="{d:DesignInstance Type=viewsmodels:IngredientViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" 
              d:DesignWidth="800">

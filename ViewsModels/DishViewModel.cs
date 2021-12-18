@@ -20,7 +20,6 @@ namespace NyamNyamDesktopApp.ViewsModels
         public DishViewModel()
         {
             Title = "Dishes";
-            _ = Task.Run(() => GetDishes()).ContinueWith(t => GetDishCategories());
         }
 
         private async void GetDishCategories()
@@ -140,6 +139,26 @@ namespace NyamNyamDesktopApp.ViewsModels
         {
             Dish dish = commandParameter as Dish;
             DependencyService.Get<INavigationService>().NavigateWithParameter<RecipeViewModel>(dish);
+        }
+
+        private RelayCommand loadDishesCommand;
+
+        public ICommand LoadDishesCommand
+        {
+            get
+            {
+                if (loadDishesCommand == null)
+                {
+                    loadDishesCommand = new RelayCommand(LoadDishes);
+                }
+
+                return loadDishesCommand;
+            }
+        }
+
+        private void LoadDishes(object commandParameter)
+        {
+            _ = Task.Run(() => GetDishes()).ContinueWith(t => GetDishCategories());
         }
     }
 }

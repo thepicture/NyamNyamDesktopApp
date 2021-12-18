@@ -71,6 +71,7 @@
     <Compile Include="Converters\CentsToDollarConverter.cs" />
     <Compile Include="Converters\DishColorConverter.cs" />
     <Compile Include="Converters\DishToTimeInMinutesConverter.cs" />
+    <Compile Include="Behaviors\AttachedBehaviors.cs" />
     <Compile Include="Models\DishIngredientsChecker.cs" />
     <Compile Include="Models\Entities\Dish.cs">
       <DependentUpon>NyamModel.tt</DependentUpon>

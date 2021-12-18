@@ -3,12 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:NyamNyamDesktopApp.Views" 
+             xmlns:local="clr-namespace:NyamNyamDesktopApp.Views"
+             xmlns:behaviors="clr-namespace:NyamNyamDesktopApp.Behaviors"
              xmlns:viewsmodels="clr-namespace:NyamNyamDesktopApp.ViewsModels" 
              xmlns:converters="clr-namespace:NyamNyamDesktopApp.Converters"
              d:DataContext="{d:DesignInstance Type=viewsmodels:DishViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" 
+             d:DesignHeight="450"
+             behaviors:AttachedBehaviors.LoadedCommand="{Binding LoadDishesCommand}"
              d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
