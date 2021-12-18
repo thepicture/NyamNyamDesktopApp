@@ -7,7 +7,8 @@
              xmlns:behaviors="clr-namespace:NyamNyamDesktopApp.Behaviors"
              behaviors:AttachedBehaviors.LoadedCommand="{Binding LoadIngredients}"
              xmlns:local="clr-namespace:NyamNyamDesktopApp.Views" 
-             xmlns:viewsmodels="clr-namespace:NyamNyamDesktopApp.ViewsModels" d:DataContext="{d:DesignInstance Type=viewsmodels:IngredientViewModel}"
+             xmlns:viewsmodels="clr-namespace:NyamNyamDesktopApp.ViewsModels" 
+             d:DataContext="{d:DesignInstance Type=viewsmodels:IngredientViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" 
              d:DesignWidth="800">
@@ -28,7 +29,7 @@
                    HorizontalAlignment="Right"
                    Grid.Row="1"></TextBlock>
         <ListView Grid.Row="2"
-                  ItemsSource="{Binding Ingredients}"
+                  ItemsSource="{Binding IngredientViewModels}"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   ScrollViewer.VerticalScrollBarVisibility="Auto">
             <ListView.ItemsPanel>
@@ -40,49 +41,55 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border Style="{StaticResource CommonBorder}">
-                        <Grid Width="300"
-                              Height="100">
+                        <Grid Width="400">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="1*" />
-                                <RowDefinition Height="1*" />
-                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="5*" />
                                 <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="30" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Style="{StaticResource HeaderBlock}"
                                        FontSize="15"
-                                       Text="{Binding IngredientName}"></TextBlock>
+                                       Text="{Binding CurrentIngredient.IngredientName}"></TextBlock>
                             <TextBlock Style="{StaticResource CommonBlock}"
                                        FontStyle="Italic"
                                        Grid.Row="1"
-                                       Text="{Binding PricePerUnitInCents, Converter={StaticResource CentsToDollar}, StringFormat={}Price: {0:F2}$}"></TextBlock>
+                                       Text="{Binding CurrentIngredient.PricePerUnitInCents, Converter={StaticResource CentsToDollar}, StringFormat={}Price: {0:F2}$}"></TextBlock>
                             <Button Style="{StaticResource LinkButton}"
                                     Content="Delete"
-                                    Grid.Row="2"></Button>
-                            <StackPanel Grid.Column="1"
-                                        HorizontalAlignment="Left"
-                                        Grid.RowSpan="3"
-                                        Orientation="Horizontal"
-                                        VerticalAlignment="Center">
-                                <TextBox Text="{Binding CountInStock}"
-                                         Width="30"
-                                         TextAlignment="Center"
-                                         VerticalAlignment="Center"></TextBox>
-                                <TextBlock Style="{StaticResource CommonBlock}"
-                                           Text="{Binding IngredientUnit.UnitName}"></TextBlock>
-                            </StackPanel>
+                                    Grid.Row="2"
+                                    CommandParameter="{Binding .}"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.DeleteIngredientCommand}"></Button>
+                            <Grid Grid.Column="1"
+                                  Grid.RowSpan="3">
+                                <StackPanel Orientation="Horizontal"
+                                           Width="100"
+                                           HorizontalAlignment="Right"
+                                           VerticalAlignment="Center">
+                                    <TextBox Text="{Binding ObservableCountInStock}"
+                                             TextAlignment="Center"
+                                             VerticalAlignment="Center"></TextBox>
+                                    <TextBlock Style="{StaticResource CommonBlock}"
+                                           Text="{Binding CurrentIngredient.IngredientUnit.UnitName}"></TextBlock>
+                                </StackPanel>
+                            </Grid>
                             <UniformGrid Rows="2"
+                                         Width="40"
+                                         HorizontalAlignment="Right"
                                          Grid.RowSpan="3"
                                          Grid.Column="2">
                                 <Button Style="{StaticResource CommonButton}"
                                         Content="+"
-                                        VerticalAlignment="Center"></Button>
+                                        CommandParameter="{Binding .}"
+                                        Command="{Binding IncreaseNumberOfIngredientsByOneCommand}"></Button>
                                 <Button Style="{StaticResource CommonButton}"
                                         Content="-"
-                                        VerticalAlignment="Center"></Button>
+                                        CommandParameter="{Binding .}"
+                                        Command="{Binding DecreaseNumberOfIngredientsByOneCommand}"></Button>
                             </UniformGrid>
                         </Grid>
                     </Border>

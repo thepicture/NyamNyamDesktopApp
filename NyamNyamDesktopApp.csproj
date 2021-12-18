@@ -111,9 +111,12 @@
     <Compile Include="Models\Factories\NyamNyamContextFactory.cs" />
     <Compile Include="Models\IngredientToIngredientWithAvailabilityConverter.cs" />
     <Compile Include="Services\DependencyService.cs" />
+    <Compile Include="Services\IFeedbackService.cs" />
     <Compile Include="Services\INavigationService.cs" />
+    <Compile Include="Services\MessageBoxFeedbackService.cs" />
     <Compile Include="Services\ViewModelNavigationService.cs" />
     <Compile Include="ViewsModels\DishViewModel.cs" />
+    <Compile Include="ViewsModels\IngredientTemplateViewModel.cs" />
     <Compile Include="ViewsModels\IngredientViewModel.cs" />
     <Compile Include="ViewsModels\NavigationViewModel.cs" />
     <Compile Include="ViewsModels\RecipeViewModel.cs" />

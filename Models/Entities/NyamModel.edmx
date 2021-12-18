@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="NyamNyamBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="NyamNyamBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Dish">
           <Key>
             <PropertyRef Name="DishId" />
@@ -44,7 +44,7 @@
           <Property Name="IngredientName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="PricePerUnitInCents" Type="int" Nullable="false" />
           <Property Name="UnitId" Type="int" Nullable="false" />
-          <Property Name="CountInStock" Type="tinyint" Nullable="false" />
+          <Property Name="CountInStock" Type="decimal" Precision="20" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="IngredientUnit">
           <Key>
@@ -167,7 +167,8 @@
             <End Role="StageIngredient" EntitySet="StageIngredient" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="NyamNyamBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -183,9 +184,9 @@
           <Property Name="SourceRecipeLink" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="FinalPriceInCents" Type="Int32" Nullable="false" />
+          <Property Name="BinaryImage" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="DishCategory" Relationship="Self.FK_Dish_DishCategory" FromRole="Dish" ToRole="DishCategory" />
           <NavigationProperty Name="DishStage" Relationship="Self.FK_DishStage_Dish" FromRole="Dish" ToRole="DishStage" />
-          <Property Name="BinaryImage" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="DishCategory">
           <Key>
@@ -215,7 +216,7 @@
           <Property Name="IngredientName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PricePerUnitInCents" Type="Int32" Nullable="false" />
           <Property Name="UnitId" Type="Int32" Nullable="false" />
-          <Property Name="CountInStock" Type="Byte" Nullable="false" />
+          <Property Name="CountInStock" Type="Decimal" Precision="20" Scale="2" Nullable="false" />
           <NavigationProperty Name="IngredientUnit" Relationship="Self.FK_Ingredient_IngredientUnit" FromRole="Ingredient" ToRole="IngredientUnit" />
           <NavigationProperty Name="StageIngredient" Relationship="Self.FK_StageIngredient_Ingredient" FromRole="Ingredient" ToRole="StageIngredient" />
         </EntityType>
@@ -354,7 +355,6 @@
           <EntitySetMapping Name="Dish">
             <EntityTypeMapping TypeName="NyamNyamBaseModel.Dish">
               <MappingFragment StoreEntitySet="Dish">
-                <ScalarProperty Name="BinaryImage" ColumnName="BinaryImage" />
                 <ScalarProperty Name="DishId" ColumnName="DishId" />
                 <ScalarProperty Name="DishName" ColumnName="DishName" />
                 <ScalarProperty Name="BaseServings" ColumnName="BaseServings" />
@@ -363,6 +363,7 @@
                 <ScalarProperty Name="SourceRecipeLink" ColumnName="SourceRecipeLink" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="FinalPriceInCents" ColumnName="FinalPriceInCents" />
+                <ScalarProperty Name="BinaryImage" ColumnName="BinaryImage" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

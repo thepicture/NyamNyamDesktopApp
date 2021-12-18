@@ -24,7 +24,7 @@ namespace NyamNyamDesktopApp.Models.Entities
         public string IngredientName { get; set; }
         public int PricePerUnitInCents { get; set; }
         public int UnitId { get; set; }
-        public byte CountInStock { get; set; }
+        public decimal CountInStock { get; set; }
     
         public virtual IngredientUnit IngredientUnit { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
