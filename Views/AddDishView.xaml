@@ -126,7 +126,8 @@
                                     </Border.Background>
                                 </Border>
                                 <Button Style="{StaticResource CommonButton}"
-                    Content="Select image ..."></Button>
+                                        Content="Select image ..."
+                                        Command="{Binding AddDishImageCommand}"></Button>
                             </StackPanel>
                         </UniformGrid>
                         <UniformGrid Columns="2">

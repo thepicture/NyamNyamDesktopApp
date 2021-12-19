@@ -118,9 +118,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Services\DependencyService.cs" />
+    <Compile Include="Services\IDialogService.cs" />
     <Compile Include="Services\IFeedbackService.cs" />
     <Compile Include="Services\INavigationService.cs" />
     <Compile Include="Services\MessageBoxFeedbackService.cs" />
+    <Compile Include="Services\OpenFileDialogService.cs" />
+    <Compile Include="Services\OpenPhotoDialogService.cs" />
     <Compile Include="Services\ViewModelNavigationService.cs" />
     <Compile Include="ViewsModels\AddDishViewModel.cs" />
     <Compile Include="ViewsModels\DishViewModel.cs" />

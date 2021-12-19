@@ -19,6 +19,7 @@ namespace NyamNyamDesktopApp
             DependencyService.Register<NyamNyamBaseEntities>();
             DependencyService.Register<NyamNyamContextFactory>();
             DependencyService.Register<MessageBoxFeedbackService>();
+            DependencyService.Register<OpenPhotoDialogService>();
 
             DependencyService.Get<INavigationService>().Navigate<DishViewModel>();
 

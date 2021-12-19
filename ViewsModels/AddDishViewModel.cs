@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Input;
@@ -34,7 +35,7 @@ namespace NyamNyamDesktopApp.ViewsModels
             TotalPriceInCents = (int)Math.Ceiling(EnumeratedDishStages.Sum(ds =>
             {
                 return ds.DishStage.StageIngredient
-                .Sum(si => si.Ingredient.PricePerUnitInCents * si.Quantity);
+                .Sum(si => si.Ingredient.PricePerUnitInCents * si.Quantity) * CurrentDish.BaseServings;
             }));
         }
 
@@ -303,6 +304,34 @@ namespace NyamNyamDesktopApp.ViewsModels
                 _ = enumeratedStage.DishStage.StageIngredient.Remove(ingredientStage);
                 EnumeratedDishStages =
                     new ObservableCollection<EnumeratedDishStage>(EnumeratedDishStages);
+            }
+        }
+
+        private RelayCommand addDishImageCommand;
+
+        public ICommand AddDishImageCommand
+        {
+            get
+            {
+                if (addDishImageCommand == null)
+                {
+                    addDishImageCommand = new RelayCommand(AddDishImage);
+                }
+
+                return addDishImageCommand;
+            }
+        }
+
+        private void AddDishImage(object commandParameter)
+        {
+            var dialogService = DependencyService.Get<OpenPhotoDialogService>();
+            if (dialogService.Open())
+            {
+                CurrentDish.BinaryImage =
+                    File.ReadAllBytes((string)dialogService.Result);
+                OnPropertyChanged(nameof(CurrentDish));
+                DependencyService.Get<IFeedbackService>().ShowInformation("The image " +
+                    "was successfully changed!");
             }
         }
     }
