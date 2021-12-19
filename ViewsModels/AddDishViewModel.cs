@@ -101,10 +101,7 @@ namespace NyamNyamDesktopApp.ViewsModels
             CurrentDish = new Dish();
 
             DishCategories = await _context.DishCategory.ToListAsync();
-            CurrentDishCategory = DishCategories.FirstOrDefault(d =>
-            {
-                return d.CategoryId == CurrentDish.DishCategory?.CategoryId;
-            });
+            CurrentDishCategory = DishCategories.First();
 
             Ingredients = await _context.Ingredient.ToListAsync();
             foreach (DishStage stage in CurrentDish.DishStage)
@@ -157,6 +154,15 @@ namespace NyamNyamDesktopApp.ViewsModels
 
         private void DeleteStage(object commandParameter)
         {
+            bool doesUserWantsToDeleteStage = DependencyService
+             .Get<IFeedbackService>()
+             .ShowQuestion("Do you really want to delete the stage? " +
+             "You can't undo this");
+            if (!doesUserWantsToDeleteStage)
+            {
+                return;
+            }
+
             if (!EnumeratedDishStages.Remove(commandParameter as EnumeratedDishStage))
             {
                 DependencyService.Get<IFeedbackService>().ShowError("Can't " +
@@ -170,7 +176,7 @@ namespace NyamNyamDesktopApp.ViewsModels
                     = new ObservableCollection<EnumeratedDishStage>();
                 foreach (EnumeratedDishStage dishStage in EnumeratedDishStages)
                 {
-                    dishStage.NumberOfStage = stageNumber++.ToString();
+                    dishStage.NumberOfStage = "Stage " + stageNumber++.ToString();
                     newEnumeratedDishStages.Add(dishStage);
                 }
                 EnumeratedDishStages = newEnumeratedDishStages;
@@ -200,14 +206,20 @@ namespace NyamNyamDesktopApp.ViewsModels
             new EnumeratedDishStage
                 (new DishStage(),
                 EnumeratedDishStages.LastOrDefault() == null
-                     ? "1"
+                     ? "Stage 1"
                      : Convert.ToString
                        (
-                         Convert.ToInt32(EnumeratedDishStages.Last().NumberOfStage) + 1
+                        "Stage " + (GetNumberFromLastStage() + 1)
                        )
                      .ToString()
                 )
             );
+        }
+
+        private int GetNumberFromLastStage()
+        {
+            return Convert.ToInt32(EnumeratedDishStages.Last().NumberOfStage
+                .Split(' ')[1]);
         }
 
         private RelayCommand _addNewIngredientToStageCommand;
@@ -259,6 +271,13 @@ namespace NyamNyamDesktopApp.ViewsModels
 
         private async void AddNewDish(object commandParameter)
         {
+            bool doesUserWantsToAddDish = DependencyService
+              .Get<IFeedbackService>()
+              .ShowQuestion("Do you really want to add a dish? You can't undo this");
+            if (!doesUserWantsToAddDish)
+            {
+                return;
+            }
             CurrentDish.FinalPriceInCents = TotalPriceInCents;
             CurrentDish.DishCategory = CurrentDishCategory;
             EnumeratedDishStages.Select(d =>
@@ -307,6 +326,13 @@ namespace NyamNyamDesktopApp.ViewsModels
         private void RemoveIngredientStage(object commandParameter)
         {
             StageIngredient ingredientStage = commandParameter as StageIngredient;
+            bool doesUserWantsToDeleteIngredientStage = DependencyService
+                .Get<IFeedbackService>()
+                .ShowQuestion("Do you really want to delete the ingredient stage?");
+            if (!doesUserWantsToDeleteIngredientStage)
+            {
+                return;
+            }
 
             foreach (var enumeratedStage in EnumeratedDishStages)
             {

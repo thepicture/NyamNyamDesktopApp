@@ -52,7 +52,8 @@
                             </TextBlock>
                             <TextBox Style="{StaticResource CommonBox}"
                                      Text="{Binding CurrentDish.DishName}"
-                                     MaxLength="100"></TextBox>
+                                     MaxLength="100"
+                                     ToolTip="Enter the dish name."></TextBox>
                         </UniformGrid>
                         <UniformGrid Columns="2">
                             <TextBlock HorizontalAlignment="Right"
@@ -64,11 +65,12 @@
                                 </TextBlock.Inlines>
                             </TextBlock>
                             <TextBox Style="{StaticResource CommonBox}"
-                 Text="{Binding CurrentDish.BaseServings}"></TextBox>
+                                     Text="{Binding CurrentDish.BaseServings}"
+                                     ToolTip="Enter how many servings are cooked by the recipe."></TextBox>
                         </UniformGrid>
                         <UniformGrid Columns="2">
                             <TextBlock HorizontalAlignment="Right"
-                   Style="{StaticResource CommonBlock}">
+                                       Style="{StaticResource CommonBlock}">
                                 <TextBlock.Inlines>
                                     <Run Text="Category"></Run>
                                     <Run Text="*"
@@ -77,21 +79,19 @@
                             </TextBlock>
                             <ComboBox Style="{StaticResource CommonComboBox}"
                                       SelectedValue="{Binding CurrentDishCategory}"
+                                      ToolTip="You should select the category of the dish."
                                       ItemsSource="{Binding DishCategories}"
                                       DisplayMemberPath="CategoryName"></ComboBox>
                         </UniformGrid>
                         <UniformGrid Columns="2">
                             <TextBlock HorizontalAlignment="Right"
-                   Style="{StaticResource CommonBlock}">
-                                <TextBlock.Inlines>
-                                    <Run Text="Source recipe link"></Run>
-                                    <Run Text="*"
-                                         Foreground="Red"/>
-                                </TextBlock.Inlines>
+                                       Style="{StaticResource CommonBlock}"
+                                       Text="Source recipe link">
                             </TextBlock>
                             <TextBox Style="{StaticResource CommonBox}"
-                 Text="{Binding CurrentDish.SourceRecipeLink}"
-                     MaxLength="1024"></TextBox>
+                                     Text="{Binding CurrentDish.SourceRecipeLink}"
+                                     MaxLength="1024"
+                                     ToolTip="Enter the link to the recipe on the web. You can leave it blank."></TextBox>
                         </UniformGrid>
                         <UniformGrid Columns="2">
                             <TextBlock HorizontalAlignment="Right"
@@ -103,10 +103,11 @@
                                 </TextBlock.Inlines>
                             </TextBlock>
                             <TextBox Style="{StaticResource CommonBox}"
-                     Text="{Binding CurrentDish.Description}"
-                     Height="300"
-                     TextWrapping="Wrap"
-                     ScrollViewer.VerticalScrollBarVisibility="Auto"></TextBox>
+                                     Text="{Binding CurrentDish.Description}"
+                                     Height="300"
+                                     TextWrapping="Wrap"
+                                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                     ToolTip="Enter a dish description. You can leave it blank."></TextBox>
                         </UniformGrid>
                         <UniformGrid Columns="2">
                             <TextBlock Text="Dish image"
@@ -115,7 +116,8 @@
                             <StackPanel>
                                 <Border Height="300"
                                         Margin="5"
-                                        CornerRadius="10">
+                                        CornerRadius="10"
+                                        ToolTip="You can attach an image related to the dish by pressing the &quot;Select image ...&quot; button below.">
                                     <Border.BitmapEffect>
                                         <DropShadowBitmapEffect Opacity=".3"></DropShadowBitmapEffect>
                                     </Border.BitmapEffect>
@@ -127,7 +129,8 @@
                                 </Border>
                                 <Button Style="{StaticResource CommonButton}"
                                         Content="Select image ..."
-                                        Command="{Binding AddDishImageCommand}"></Button>
+                                        Command="{Binding AddDishImageCommand}"
+                                        ToolTip="Allow you to select an image related to the dish from image file."></Button>
                             </StackPanel>
                         </UniformGrid>
                         <UniformGrid Columns="2">
@@ -135,7 +138,8 @@
                         <!--Ingredient stages.-->
                         <GroupBox Header="Dish stages">
                             <StackPanel>
-                                <Button Content="Add a new stage of the dish"
+                                <Button Content="Add a new stage to the dish"
+                                        ToolTip="Adds a new stage to the current dish with no ingredients by default."
                                         Style="{StaticResource CommonButton}"
                                         Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.AddNewStageCommand}"></Button>
                                 <ListView ItemsSource="{Binding EnumeratedDishStages}"
@@ -152,23 +156,37 @@
                                             <GroupBox Header="{Binding NumberOfStage}">
                                                 <StackPanel>
                                                     <Button Content="Delete stage from dish"
+                                                            ToolTip="Allow you to remove the stage. You should confirm that you want to delete it."
                                                             Style="{StaticResource CommonButton}"
                                                             CommandParameter="{Binding .}"
                                                             Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.DeleteStageCommand}"></Button>
                                                     <Button Content="Add a new ingredient to stage"
+                                                            ToolTip="Adds a new ingredient to the current stage where it placed on."
                                                             Style="{StaticResource CommonButton}"
                                                             CommandParameter="{Binding .}"
                                                             Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.AddNewIngredientToStageCommand}"></Button>
-                                                    <TextBlock Text="Stage description:"
-                                                           TextWrapping="Wrap"
-                                                           Style="{StaticResource CommonBlock}"></TextBlock>
+                                                    <TextBlock TextWrapping="Wrap"
+                                                               Style="{StaticResource CommonBlock}">
+                                                        <TextBlock.Inlines>
+                                                            <Run Text="Stage description"></Run>
+                                                            <Run Text="*"
+                                                                 Foreground="Red"/>
+                                                        </TextBlock.Inlines>
+                                                    </TextBlock>
                                                     <TextBox Style="{StaticResource CommonBox}"
+                                                             ToolTip="You should enter the stage description."
                                                              Height="60"
                                                              Text="{Binding DishStage.ProcessDescription}"></TextBox>
-                                                    <TextBlock Text="Time in minutes:"
-                                                           TextWrapping="Wrap"
-                                                           Style="{StaticResource CommonBlock}"></TextBlock>
+                                                    <TextBlock TextWrapping="Wrap"
+                                                               Style="{StaticResource CommonBlock}">
+                                                        <TextBlock.Inlines>
+                                                            <Run Text="Time in minutes to cook the stage"></Run>
+                                                            <Run Text="*"
+                                                                 Foreground="Red"/>
+                                                        </TextBlock.Inlines>
+                                                    </TextBlock>
                                                     <TextBox Style="{StaticResource CommonBox}"
+                                                             ToolTip="You should type how much time in minutes you need for the current stage."
                                                              Text="{Binding DishStage.TimeInMinutes}"></TextBox>
                                                     <GroupBox Header="Stage ingredients">
                                                         <ListView ItemsSource="{Binding DishStage.StageIngredient}"
@@ -188,16 +206,23 @@
                                                                                   DisplayMemberPath="IngredientName"
                                                                                   x:Name="NameOfIngredient"
                                                                                   Style="{StaticResource CommonComboBox}"></ComboBox>
-                                                                        <TextBlock Text="Quantity: "
-                                                                                   HorizontalAlignment="Right"
-                                                                               Style="{StaticResource CommonBlock}"></TextBlock>
+                                                                        <TextBlock HorizontalAlignment="Right"
+                                                                                   Style="{StaticResource CommonBlock}">
+                                                                            <TextBlock.Inlines>
+                                                                                <Run Text="Quantity"></Run>
+                                                                                <Run Text="*"
+                                                                                     Foreground="Red"/>
+                                                                            </TextBlock.Inlines>
+                                                                        </TextBlock>
                                                                         <TextBox Text="{Binding Quantity}"
-                                                                             Style="{StaticResource CommonBox}"></TextBox>
+                                                                                 Style="{StaticResource CommonBox}"
+                                                                                 ToolTip="You should type a positive quantity of the ingredient."></TextBox>
                                                                         <TextBlock Text="{Binding ElementName=NameOfIngredient, Path=SelectedItem.IngredientUnit.UnitName}"
                                                                                    Style="{StaticResource CommonBlock}"
                                                                                    HorizontalAlignment="Left"></TextBlock>
                                                                         <Button Style="{StaticResource CommonButton}"
                                                                                 Content="Remove ingredient"
+                                                                                ToolTip="Allow you to remove ingredient. You should confirm that you really want to remove it. The ingredient will not be deleted from the database, only from the current dish."
                                                                                 CommandParameter="{Binding .}"
                                                                                 Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.RemoveIngredientStageCommand}"></Button>
                                                                     </UniformGrid>
@@ -213,15 +238,19 @@
                             </StackPanel>
                         </GroupBox>
                         <!--End of ingredient stages.-->
+
                         <TextBlock Text="{Binding TotalPriceInCents, Converter={StaticResource CentsToDollar}, StringFormat=Final price: {0:F2}$}"
                                    Style="{StaticResource HeaderBlock}"
-                                   HorizontalAlignment="Center"></TextBlock>
+                                   HorizontalAlignment="Center"
+                                   ToolTip="How many dollars you need to pay for the current dish with respect to ingredients and base servings."></TextBlock>
                         <UniformGrid Columns="2">
                             <Button Content="Add a new dish"
+                                    ToolTip="Allow you to save a new dish. You should confirm that you want to save it."
                                     Style="{StaticResource CommonButton}"
                                     Command="{Binding AddNewDishCommand}"></Button>
                             <Button Content="Cancel and go back"
-                    Style="{StaticResource CommonButton}"
+                                    Style="{StaticResource CommonButton}"
+                                    ToolTip="Allow you to go back. You should confirm that you really want to go back. All progress of the current dish will be lost."
                                     Command="{Binding GoBackCommand}"></Button>
                         </UniformGrid>
                     </StackPanel>

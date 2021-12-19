@@ -84,6 +84,14 @@ namespace NyamNyamDesktopApp.ViewsModels
         /// <param name="commandParameter">The command parameter.</param>
         private void GoBack(object commandParameter)
         {
+            bool doesUserWantsToGoBack = DependencyService
+             .Get<IFeedbackService>()
+             .ShowQuestion("Do you really want to go back? Changes on the " +
+             "current page will be lost");
+            if (!doesUserWantsToGoBack)
+            {
+                return;
+            }
             DependencyService.Get<INavigationService>().GoBack();
         }
     }

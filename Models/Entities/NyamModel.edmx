@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="NyamNyamBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="NyamNyamBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Dish">
           <Key>
             <PropertyRef Name="DishId" />
@@ -14,7 +14,7 @@
           <Property Name="BaseServings" Type="tinyint" Nullable="false" />
           <Property Name="CategoryId" Type="int" Nullable="false" />
           <Property Name="ImagePath" Type="nvarchar(max)" />
-          <Property Name="SourceRecipeLink" Type="nvarchar" MaxLength="1024" Nullable="false" />
+          <Property Name="SourceRecipeLink" Type="nvarchar" MaxLength="1024" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="FinalPriceInCents" Type="int" Nullable="false" />
           <Property Name="BinaryImage" Type="varbinary(max)" />
@@ -167,8 +167,7 @@
             <End Role="StageIngredient" EntitySet="StageIngredient" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="NyamNyamBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -181,7 +180,7 @@
           <Property Name="BaseServings" Type="Byte" Nullable="false" />
           <Property Name="CategoryId" Type="Int32" Nullable="false" />
           <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SourceRecipeLink" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SourceRecipeLink" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="FinalPriceInCents" Type="Int32" Nullable="false" />
           <Property Name="BinaryImage" Type="Binary" MaxLength="Max" FixedLength="false" />
