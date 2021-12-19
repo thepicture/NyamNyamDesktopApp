@@ -17,15 +17,22 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid Background="{StaticResource Background}"
-                  Grid.RowSpan="2"></Grid>
+                  Grid.RowSpan="3"></Grid>
             <TextBlock Text="Add a new dish"
                        Style="{StaticResource HeaderBlock}"></TextBlock>
+            <TextBlock Text="{Binding Errors}"
+                       Foreground="Red"
+                       TextWrapping="Wrap"
+                       Style="{StaticResource HeaderBlock}"
+                       FontSize="15"
+                       Grid.Row="1"></TextBlock>
             <TextBlock Style="{StaticResource CommonBlock}"
                        HorizontalAlignment="Right"
-                       Grid.Row="1"
+                       Grid.Row="2"
                        TextWrapping="Wrap">
                 <TextBlock.Inlines>
                     <Run Text="To add a new dish, fill the blanks below. Fields with the"></Run>
@@ -34,7 +41,7 @@
                     <Run Text="sign are mandatory to fill, otherwise saving of a new dish will be impossible."></Run>
                 </TextBlock.Inlines>
             </TextBlock>
-            <Border Grid.Row="2"
+            <Border Grid.Row="3"
                     Style="{StaticResource CommonBorder}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
@@ -95,12 +102,8 @@
                         </UniformGrid>
                         <UniformGrid Columns="2">
                             <TextBlock HorizontalAlignment="Right"
-                       Style="{StaticResource CommonBlock}">
-                                <TextBlock.Inlines>
-                                    <Run Text="Dish description"></Run>
-                                    <Run Text="*"
-                                         Foreground="Red"/>
-                                </TextBlock.Inlines>
+                                       Style="{StaticResource CommonBlock}"
+                                       Text="Dish description">
                             </TextBlock>
                             <TextBox Style="{StaticResource CommonBox}"
                                      Text="{Binding CurrentDish.Description}"
@@ -117,7 +120,7 @@
                                 <Border Height="300"
                                         Margin="5"
                                         CornerRadius="10"
-                                        ToolTip="You can attach an image related to the dish by pressing the &quot;Select image ...&quot; button below.">
+                                        ToolTip="You can attach an image related to the dish by pressing the &quot;Select image ...&quot; button below. It is not mandatory.">
                                     <Border.BitmapEffect>
                                         <DropShadowBitmapEffect Opacity=".3"></DropShadowBitmapEffect>
                                     </Border.BitmapEffect>
@@ -186,7 +189,7 @@
                                                         </TextBlock.Inlines>
                                                     </TextBlock>
                                                     <TextBox Style="{StaticResource CommonBox}"
-                                                             ToolTip="You should type how much time in minutes you need for the current stage."
+                                                             ToolTip="You should type how much time in minutes you need for the current stage to be cooked."
                                                              Text="{Binding DishStage.TimeInMinutes}"></TextBox>
                                                     <GroupBox Header="Stage ingredients">
                                                         <ListView ItemsSource="{Binding DishStage.StageIngredient}"

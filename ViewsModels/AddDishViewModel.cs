@@ -10,6 +10,7 @@ using System.Data;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Windows.Input;
 
@@ -262,11 +263,89 @@ namespace NyamNyamDesktopApp.ViewsModels
             {
                 if (_addNewDishCommand == null)
                 {
-                    _addNewDishCommand = new RelayCommand(AddNewDish);
+                    _addNewDishCommand = new RelayCommand(AddNewDish,
+                                                          CanAddNewDishExecuted);
                 }
 
                 return _addNewDishCommand;
             }
+        }
+
+        private bool CanAddNewDishExecuted(object arg)
+        {
+            StringBuilder localErrors = new StringBuilder();
+            if (CurrentDish == null)
+            {
+                localErrors.AppendLine("Dish is unknown to the app");
+                Errors = localErrors.ToString();
+                return false;
+            }
+            if (EnumeratedDishStages == null || EnumeratedDishStages.Count == 0)
+            {
+                localErrors.AppendLine("Dish stages count is unknown or zero, " +
+                    "you need to add at least one dish stage");
+            }
+            else
+            {
+                if (EnumeratedDishStages.Select(s => s.DishStage.ProcessDescription)
+               .Any(s => string.IsNullOrWhiteSpace(s)))
+                {
+                    localErrors.AppendLine("You didn't input the description " +
+                        "on some dish stages, though they have to be filled");
+                }
+
+                if (EnumeratedDishStages
+                    .Select(s => s.DishStage.TimeInMinutes.ToString())
+                    .Any(s => !(byte.TryParse(s, out _) && byte.Parse(s) > 0)))
+                {
+                    localErrors.AppendLine("You didn't input time in minutes " +
+                        "on some dish stages, though " +
+                        "they have to be filled and to be " +
+                        "a positive integer number");
+                }
+
+                if (EnumeratedDishStages.Any(s => s.DishStage.StageIngredient.Count == 0))
+                {
+                    localErrors.AppendLine("No any ingredients are available " +
+                        "in one of the stages, " +
+                        "though there need to be at least one ingredient on the stage");
+                }
+                else
+                {
+                    if (EnumeratedDishStages
+                        .Any(s => s.DishStage.StageIngredient.Any(si =>
+                            {
+                                return !(decimal.TryParse(si.Quantity.ToString(), out _)
+                                     && decimal.Parse(si.Quantity.ToString()) > 0);
+                            })))
+                    {
+                        localErrors.AppendLine("You didn't input quantity " +
+                            "on some stage ingredients or " +
+                            "you have filled them wrong, though " +
+                            "they have to be filled and be " +
+                            "a positive (probably fractional) number");
+                    }
+                }
+            }
+            if (string.IsNullOrEmpty(CurrentDish.DishName))
+            {
+                localErrors.AppendLine("Name is mandatory field");
+            }
+            if (!int.TryParse(CurrentDish.BaseServings.ToString(), out _)
+                || int.Parse(CurrentDish.BaseServings.ToString()) <= 0)
+            {
+                localErrors.AppendLine("Base servings is a positive integer number");
+            }
+            if (CurrentDishCategory is null)
+            {
+                localErrors.AppendLine("The dish category is mandatory");
+            }
+
+            bool isValid = localErrors.Length == 0;
+
+            Errors = localErrors.ToString();
+
+            return isValid;
         }
 
         private async void AddNewDish(object commandParameter)
@@ -343,6 +422,7 @@ namespace NyamNyamDesktopApp.ViewsModels
         }
 
         private RelayCommand addDishImageCommand;
+        private string _errors = string.Empty;
 
         public ICommand AddDishImageCommand
         {
@@ -355,6 +435,12 @@ namespace NyamNyamDesktopApp.ViewsModels
 
                 return addDishImageCommand;
             }
+        }
+
+        public string Errors
+        {
+            get => _errors;
+            set => SetProperty(ref _errors, value);
         }
 
         private void AddDishImage(object commandParameter)
