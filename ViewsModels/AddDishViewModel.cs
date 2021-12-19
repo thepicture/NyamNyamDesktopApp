@@ -94,6 +94,8 @@ namespace NyamNyamDesktopApp.ViewsModels
             set => SetProperty(ref _enumeratedDishStages, value);
         }
 
+        private Timer _timer;
+
         private async void PerformLoadCategoriesAndIngredients(object commandParameter)
         {
             CurrentDish = new Dish();
@@ -127,9 +129,9 @@ namespace NyamNyamDesktopApp.ViewsModels
                                                       + stageNumber++.ToString());
                 }));
 
-            Timer timer =
+            _timer =
                 new Timer(UpdateTotalPrice);
-            if (!timer.Change(0, (int)TimeSpan.FromSeconds(1).TotalMilliseconds))
+            if (!_timer.Change(0, (int)TimeSpan.FromSeconds(1).TotalMilliseconds))
             {
                 DependencyService.Get<IFeedbackService>().ShowError("Can't prepare " +
                     "the page for adding a new dish. You will be navigated " +
@@ -259,6 +261,12 @@ namespace NyamNyamDesktopApp.ViewsModels
         {
             CurrentDish.FinalPriceInCents = TotalPriceInCents;
             CurrentDish.DishCategory = CurrentDishCategory;
+            EnumeratedDishStages.Select(d =>
+            {
+                d.DishStage.StageIngredient.ToList()
+                .ForEach(si => si.IngredientUnit = si.Ingredient.IngredientUnit);
+                return d.DishStage;
+            }).ToList().ForEach(CurrentDish.DishStage.Add);
             _ = _context.Dish.Add(CurrentDish);
             try
             {
@@ -266,13 +274,14 @@ namespace NyamNyamDesktopApp.ViewsModels
                 {
                     throw new DataException("Dish was not added");
                 }
-                DependencyService.Get<IFeedbackService>().ShowInformation("The " +
+                _timer.Dispose();
+                DependencyService.Get<IFeedbackService>().ShowInformation("A " +
                     "dish was successfully added!");
                 DependencyService.Get<INavigationService>().GoBack();
             }
             catch (DataException ex)
             {
-                DependencyService.Get<IFeedbackService>().ShowInformation("The " +
+                DependencyService.Get<IFeedbackService>().ShowInformation("A " +
                  "dish was not successfully added. Try to " +
                  "reload page or try to reload the app");
                 System.Diagnostics.Debug.WriteLine(ex.StackTrace);

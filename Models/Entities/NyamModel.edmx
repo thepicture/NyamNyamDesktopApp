@@ -31,7 +31,7 @@
           <Key>
             <PropertyRef Name="StageId" />
           </Key>
-          <Property Name="StageId" Type="int" Nullable="false" />
+          <Property Name="StageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProcessDescription" Type="nvarchar(max)" Nullable="false" />
           <Property Name="TimeInMinutes" Type="tinyint" Nullable="false" />
           <Property Name="DishId" Type="int" Nullable="false" />
@@ -201,7 +201,7 @@
           <Key>
             <PropertyRef Name="StageId" />
           </Key>
-          <Property Name="StageId" Type="Int32" Nullable="false" />
+          <Property Name="StageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ProcessDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="TimeInMinutes" Type="Byte" Nullable="false" />
           <Property Name="DishId" Type="Int32" Nullable="false" />

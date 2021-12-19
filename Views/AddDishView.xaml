@@ -159,9 +159,17 @@
                                                             Style="{StaticResource CommonButton}"
                                                             CommandParameter="{Binding .}"
                                                             Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.AddNewIngredientToStageCommand}"></Button>
-                                                    <TextBlock Text="{Binding DishStage.ProcessDescription, StringFormat={}Description: {0}}"
+                                                    <TextBlock Text="Stage description:"
                                                            TextWrapping="Wrap"
                                                            Style="{StaticResource CommonBlock}"></TextBlock>
+                                                    <TextBox Style="{StaticResource CommonBox}"
+                                                             Height="60"
+                                                             Text="{Binding DishStage.ProcessDescription}"></TextBox>
+                                                    <TextBlock Text="Time in minutes:"
+                                                           TextWrapping="Wrap"
+                                                           Style="{StaticResource CommonBlock}"></TextBlock>
+                                                    <TextBox Style="{StaticResource CommonBox}"
+                                                             Text="{Binding DishStage.TimeInMinutes}"></TextBox>
                                                     <GroupBox Header="Stage ingredients">
                                                         <ListView ItemsSource="{Binding DishStage.StageIngredient}"
                                                                   BorderBrush="Transparent"
