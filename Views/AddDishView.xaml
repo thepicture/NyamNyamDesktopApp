@@ -6,10 +6,12 @@
              xmlns:local="clr-namespace:NyamNyamDesktopApp.Views"
              xmlns:viewsmodels="clr-namespace:NyamNyamDesktopApp.ViewsModels"
              xmlns:converters="clr-namespace:NyamNyamDesktopApp.Converters"
+             xmlns:behaviors="clr-namespace:NyamNyamDesktopApp.Behaviors"
              d:DataContext="{d:DesignInstance Type=viewsmodels:AddDishViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="1550"
-             d:DesignWidth="800">
+             d:DesignHeight="2000"
+             d:DesignWidth="800"
+             behaviors:AttachedBehaviors.LoadedCommand="{Binding LoadCategories}">
     <Border Style="{StaticResource CommonBorder}">
         <Grid>
             <Grid.RowDefinitions>
@@ -17,91 +19,127 @@
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
+            <Grid Background="{StaticResource Background}"
+                  Grid.RowSpan="2"></Grid>
             <TextBlock Text="Add a new dish"
-                   Style="{StaticResource HeaderBlock}"></TextBlock>
-            <TextBlock Text="To add a new dish, fill the blanks below."
-                               Style="{StaticResource CommonBlock}"
-                   HorizontalAlignment="Right"
-                   Grid.Row="1"></TextBlock>
+                       Style="{StaticResource HeaderBlock}"></TextBlock>
+            <TextBlock Style="{StaticResource CommonBlock}"
+                       HorizontalAlignment="Right"
+                       Grid.Row="1"
+                       TextWrapping="Wrap">
+                <TextBlock.Inlines>
+                    <Run Text="To add a new dish, fill the blanks below. Fields with the"></Run>
+                    <Run Text="*"
+                         Foreground="Red"/>
+                    <Run Text="sign are mandatory to fill, otherwise saving of a new dish will be impossible."></Run>
+                </TextBlock.Inlines>
+            </TextBlock>
             <Border Grid.Row="2"
                     Style="{StaticResource CommonBorder}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel HorizontalAlignment="Center"
-                VerticalAlignment="Center">
+                    <StackPanel>
                         <StackPanel.Resources>
                             <converters:CentsToDollarConverter x:Key="CentsToDollar"></converters:CentsToDollarConverter>
                         </StackPanel.Resources>
-                        <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Right">
-                            <TextBlock Text="Dish name"
-                   Style="{StaticResource CommonBlock}"></TextBlock>
+                        <UniformGrid Columns="2">
+                            <TextBlock Style="{StaticResource CommonBlock}"
+                                       HorizontalAlignment="Right">
+                                <TextBlock.Inlines>
+                                    <Run Text="Dish name"></Run>
+                                    <Run Text="*"
+                                         Foreground="Red"/>
+                                </TextBlock.Inlines>
+                            </TextBlock>
                             <TextBox Style="{StaticResource CommonBox}"
-                 Text="{Binding CurrentDish.DishName}"
-                     MaxLength="100"></TextBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Right">
-                            <TextBlock Text="Base servings"
-                   Style="{StaticResource CommonBlock}"></TextBlock>
+                                     Text="{Binding CurrentDish.DishName}"
+                                     MaxLength="100"></TextBox>
+                        </UniformGrid>
+                        <UniformGrid Columns="2">
+                            <TextBlock HorizontalAlignment="Right"
+                                       Style="{StaticResource CommonBlock}">
+                                <TextBlock.Inlines>
+                                    <Run Text="Base servings"></Run>
+                                    <Run Text="*"
+                                         Foreground="Red"/>
+                                </TextBlock.Inlines>
+                            </TextBlock>
                             <TextBox Style="{StaticResource CommonBox}"
                  Text="{Binding CurrentDish.BaseServings}"></TextBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Right">
-                            <TextBlock Text="Category"
-                   Style="{StaticResource CommonBlock}"></TextBlock>
+                        </UniformGrid>
+                        <UniformGrid Columns="2">
+                            <TextBlock HorizontalAlignment="Right"
+                   Style="{StaticResource CommonBlock}">
+                                <TextBlock.Inlines>
+                                    <Run Text="Category"></Run>
+                                    <Run Text="*"
+                                         Foreground="Red"/>
+                                </TextBlock.Inlines>
+                            </TextBlock>
                             <ComboBox Style="{StaticResource CommonComboBox}"
-                      SelectedValue="{Binding CurrentDishCategory}"
-                      ItemsSource="{Binding DishCategories}"
-                      DisplayMemberPath="CategoryName"></ComboBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Right">
-                            <TextBlock Text="Source recipe link"
-                   Style="{StaticResource CommonBlock}"></TextBlock>
+                                      SelectedValue="{Binding CurrentDishCategory}"
+                                      ItemsSource="{Binding DishCategories}"
+                                      DisplayMemberPath="CategoryName"></ComboBox>
+                        </UniformGrid>
+                        <UniformGrid Columns="2">
+                            <TextBlock HorizontalAlignment="Right"
+                   Style="{StaticResource CommonBlock}">
+                                <TextBlock.Inlines>
+                                    <Run Text="Source recipe link"></Run>
+                                    <Run Text="*"
+                                         Foreground="Red"/>
+                                </TextBlock.Inlines>
+                            </TextBlock>
                             <TextBox Style="{StaticResource CommonBox}"
                  Text="{Binding CurrentDish.SourceRecipeLink}"
                      MaxLength="1024"></TextBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Right">
-                            <TextBlock Text="Description"
-                       Style="{StaticResource CommonBlock}"></TextBlock>
+                        </UniformGrid>
+                        <UniformGrid Columns="2">
+                            <TextBlock HorizontalAlignment="Right"
+                       Style="{StaticResource CommonBlock}">
+                                <TextBlock.Inlines>
+                                    <Run Text="Dish description"></Run>
+                                    <Run Text="*"
+                                         Foreground="Red"/>
+                                </TextBlock.Inlines>
+                            </TextBlock>
                             <TextBox Style="{StaticResource CommonBox}"
-                     Text="{Binding CurrentDish.DishName}"
+                     Text="{Binding CurrentDish.Description}"
                      Height="300"
                      TextWrapping="Wrap"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"></TextBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Right">
-                            <TextBlock Text="Final price in dollars"
-                   Style="{StaticResource CommonBlock}"></TextBlock>
-                            <TextBox Style="{StaticResource CommonBox}"
-                         Text="{Binding TotalPriceInCents, FallbackValue=0, Converter={StaticResource CentsToDollar}}"
-                         IsHitTestVisible="False"></TextBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Right">
-                            <TextBlock Text="Image"
-                   Style="{StaticResource CommonBlock}"></TextBlock>
-                            <Image Source="{Binding CurrentDish.BinaryImage, TargetNullValue='./../../Resources/NyamNyam.png'}"
-                       Width="200"
-                       Height="200"
-                       Stretch="UniformToFill"
-                       Margin="5"></Image>
-                        </StackPanel>
-                        <Button Style="{StaticResource CommonButton}"
-                    Content="Select image ..."
-                    HorizontalAlignment="Right"
-                    Width="200"></Button>
-
+                        </UniformGrid>
+                        <UniformGrid Columns="2">
+                            <TextBlock Text="Dish image"
+                   Style="{StaticResource CommonBlock}"
+                                       HorizontalAlignment="Right"></TextBlock>
+                            <StackPanel>
+                                <Border Height="300"
+                                        Margin="5"
+                                        CornerRadius="10">
+                                    <Border.BitmapEffect>
+                                        <DropShadowBitmapEffect Opacity=".3"></DropShadowBitmapEffect>
+                                    </Border.BitmapEffect>
+                                    <Border.Background>
+                                        <ImageBrush ImageSource="{Binding CurrentDish.BinaryImage, TargetNullValue='./../../Resources/NyamNyam.png'}"
+                                                Stretch="UniformToFill">
+                                        </ImageBrush>
+                                    </Border.Background>
+                                </Border>
+                                <Button Style="{StaticResource CommonButton}"
+                    Content="Select image ..."></Button>
+                            </StackPanel>
+                        </UniformGrid>
+                        <UniformGrid Columns="2">
+                        </UniformGrid>
                         <!--Ingredient stages.-->
                         <GroupBox Header="Dish stages">
                             <StackPanel>
-                                <Button Content="Add a new stage"
-                                        Style="{StaticResource CommonButton}"></Button>
-                                <ListView ItemsSource="{Binding CurrentDish.DishStage}">
+                                <Button Content="Add a new stage of the dish"
+                                        Style="{StaticResource CommonButton}"
+                                        Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.AddNewStageCommand}"></Button>
+                                <ListView ItemsSource="{Binding EnumeratedDishStages}"
+                                          BorderBrush="Transparent"
+                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                                     <ListView.ItemContainerStyle>
                                         <Style TargetType="ListViewItem">
                                             <Setter Property="HorizontalContentAlignment" 
@@ -110,15 +148,23 @@
                                     </ListView.ItemContainerStyle>
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
-                                            <GroupBox Header="Stage N">
+                                            <GroupBox Header="{Binding NumberOfStage}">
                                                 <StackPanel>
                                                     <Button Content="Delete stage from dish"
-                                                        Style="{StaticResource CommonButton}"></Button>
-                                                    <TextBlock Text="{Binding ProcessDescription}"
+                                                            Style="{StaticResource CommonButton}"
+                                                            CommandParameter="{Binding .}"
+                                                            Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.DeleteStageCommand}"></Button>
+                                                    <Button Content="Add a new ingredient to stage"
+                                                            Style="{StaticResource CommonButton}"
+                                                            CommandParameter="{Binding .}"
+                                                            Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.AddNewIngredientToStageCommand}"></Button>
+                                                    <TextBlock Text="{Binding DishStage.ProcessDescription, StringFormat={}Description: {0}}"
                                                            TextWrapping="Wrap"
                                                            Style="{StaticResource CommonBlock}"></TextBlock>
                                                     <GroupBox Header="Stage ingredients">
-                                                        <ListView ItemsSource="{Binding StageIngredient}">
+                                                        <ListView ItemsSource="{Binding DishStage.StageIngredient}"
+                                                                  BorderBrush="Transparent"
+                                                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                                                             <ListView.ItemContainerStyle>
                                                                 <Style TargetType="ListViewItem">
                                                                     <Setter Property="HorizontalContentAlignment" 
@@ -127,18 +173,25 @@
                                                             </ListView.ItemContainerStyle>
                                                             <ListView.ItemTemplate>
                                                                 <DataTemplate>
-                                                                    <StackPanel Orientation="Horizontal" 
-                                                                                HorizontalAlignment="Right">
-                                                                        <TextBlock Text="{Binding Ingredient.IngredientName,StringFormat={}Ingredient name: {0}}"
-                                                                           Style="{StaticResource CommonBlock}"></TextBlock>
+                                                                    <UniformGrid Columns="5">
+                                                                        <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Ingredients}"
+                                                                                  SelectedItem="{Binding Ingredient}"
+                                                                                  DisplayMemberPath="IngredientName"
+                                                                                  x:Name="NameOfIngredient"
+                                                                                  Style="{StaticResource CommonComboBox}"></ComboBox>
                                                                         <TextBlock Text="Quantity: "
+                                                                                   HorizontalAlignment="Right"
                                                                                Style="{StaticResource CommonBlock}"></TextBlock>
                                                                         <TextBox Text="{Binding Quantity}"
-                                                                             Width="200"
                                                                              Style="{StaticResource CommonBox}"></TextBox>
+                                                                        <TextBlock Text="{Binding ElementName=NameOfIngredient, Path=SelectedItem.IngredientUnit.UnitName}"
+                                                                                   Style="{StaticResource CommonBlock}"
+                                                                                   HorizontalAlignment="Left"></TextBlock>
                                                                         <Button Style="{StaticResource CommonButton}"
-                                                                            Content="Delete from dish"></Button>
-                                                                    </StackPanel>
+                                                                                Content="Remove ingredient"
+                                                                                CommandParameter="{Binding .}"
+                                                                                Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.RemoveIngredientStageCommand}"></Button>
+                                                                    </UniformGrid>
                                                                 </DataTemplate>
                                                             </ListView.ItemTemplate>
                                                         </ListView>
@@ -151,17 +204,17 @@
                             </StackPanel>
                         </GroupBox>
                         <!--End of ingredient stages.-->
-
-                        <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding TotalPriceInCents, Converter={StaticResource CentsToDollar}, StringFormat=Final price: {0:F2}$}"
+                                   Style="{StaticResource HeaderBlock}"
+                                   HorizontalAlignment="Center"></TextBlock>
+                        <UniformGrid Columns="2">
                             <Button Content="Add a new dish"
-                    Style="{StaticResource CommonButton}"
-                    Width="200"
-                    HorizontalAlignment="Right"></Button>
+                                    Style="{StaticResource CommonButton}"
+                                    Command="{Binding AddNewDishCommand}"></Button>
                             <Button Content="Cancel and go back"
                     Style="{StaticResource CommonButton}"
-                    Width="200"
-                    HorizontalAlignment="Right"></Button>
-                        </StackPanel>
+                                    Command="{Binding GoBackCommand}"></Button>
+                        </UniformGrid>
                     </StackPanel>
                 </ScrollViewer>
             </Border>

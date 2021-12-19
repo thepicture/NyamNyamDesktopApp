@@ -1,6 +1,6 @@
 ﻿using NyamNyamDesktopApp.Commands;
+using NyamNyamDesktopApp.Models.Entities;
 using NyamNyamDesktopApp.Services;
-using System.Linq;
 using System.Windows.Input;
 
 namespace NyamNyamDesktopApp.ViewsModels
@@ -83,9 +83,9 @@ namespace NyamNyamDesktopApp.ViewsModels
 
         private void GoToAddNewDish(object commandParameter)
         {
-#if DEBUG
-            DependencyService.Get<INavigationService>().NavigateWithParameter<AddDishViewModel>(DependencyService.Get<NyamNyamDesktopApp.Models.Factories.NyamNyamContextFactory>().Create().Dish.First());
-# endif
+            DependencyService
+                .Get<INavigationService>()
+                .Navigate<AddDishViewModel>();
         }
     }
 }

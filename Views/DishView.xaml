@@ -37,6 +37,7 @@
                     <TextBlock Text="Name:"
                                Style="{StaticResource CommonBlock}"></TextBlock>
                     <TextBox Style="{StaticResource CommonBox}"
+                             Width="305"
                              Text="{Binding NameOrDescriptionSearchText, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                 </StackPanel>
             </UniformGrid>
@@ -58,13 +59,15 @@
                             Value="{Binding MinPriceInDollars}"
                             Minimum="1"
                             Interval="1"
-                            Maximum="49">
+                            Maximum="49"
+                            Width="100">
                     </Slider>
                     <Slider Style="{StaticResource CommonSlider}"
                             Value="{Binding MaxPriceInDollars}"
                             Minimum="50"
                             Interval="1"
-                            Maximum="100"></Slider>
+                            Maximum="100"
+                            Width="100"></Slider>
                 </StackPanel>
             </UniformGrid>
         </StackPanel>
@@ -87,9 +90,12 @@
                                 <RowDefinition Height="1*" />
                                 <RowDefinition Height="1*" />
                             </Grid.RowDefinitions>
-                            <Image Grid.RowSpan="2">
+                            <Image Grid.RowSpan="2"
+                                   Stretch="UniformToFill"
+                                   Width="200"
+                                   Height="200">
                                 <Image.Source>
-                                    <FormatConvertedBitmap Source="{Binding BinaryImage}"
+                                    <FormatConvertedBitmap Source="{Binding BinaryImage, TargetNullValue='./../../Resources/NyamNyam.png'}"
                                                            DestinationFormat="{Binding ., Converter={StaticResource DishColor}}"></FormatConvertedBitmap>
                                 </Image.Source>
                             </Image>

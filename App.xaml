@@ -21,7 +21,6 @@
         <Style TargetType="ComboBox"
                x:Key="CommonComboBox">
             <Setter Property="Margin" Value="5" />
-            <Setter Property="Width" Value="200" />
         </Style>
         <Style TargetType="CheckBox"
                x:Key="CommonCheckBox">
@@ -30,12 +29,10 @@
         <Style TargetType="Slider"
                x:Key="CommonSlider">
             <Setter Property="Margin" Value="5" />
-            <Setter Property="Width" Value="200" />
         </Style>
         <Style TargetType="TextBox"
                x:Key="CommonBox">
             <Setter Property="Margin" Value="5" />
-            <Setter Property="Width" Value="200" />
         </Style>
         <Style TargetType="TextBlock"
                x:Key="HeaderBlock"

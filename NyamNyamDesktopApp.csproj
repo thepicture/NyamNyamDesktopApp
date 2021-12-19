@@ -111,6 +111,7 @@
     <Compile Include="Models\Factories\IDbContextFactory.cs" />
     <Compile Include="Models\Factories\NyamNyamContextFactory.cs" />
     <Compile Include="Models\IngredientToIngredientWithAvailabilityConverter.cs" />
+    <Compile Include="Models\EnumeratedDishStage.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -205,6 +206,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\NyamNyam.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Models\Entities\NyamModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>NyamModel.edmx</DependentUpon>
@@ -215,7 +219,6 @@
       <DependentUpon>NyamModel.edmx</DependentUpon>
       <LastGenOutput>NyamModel.cs</LastGenOutput>
     </Content>
-    <Resource Include="Resources\NyamNyam.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

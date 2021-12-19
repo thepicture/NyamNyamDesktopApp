@@ -166,7 +166,7 @@ namespace NyamNyamDesktopApp.ViewsModels
         {
             Dish dish = commandParameter as Dish;
             DependencyService.Get<INavigationService>()
-                             .NavigateWithParameter<RecipeViewModel>(dish);
+                             .NavigateWithParameters<RecipeViewModel>(dish);
         }
 
         private RelayCommand loadDishesCommand;

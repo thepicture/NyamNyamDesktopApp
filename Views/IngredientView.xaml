@@ -67,9 +67,9 @@
                             <Grid Grid.Column="1"
                                   Grid.RowSpan="3">
                                 <StackPanel Orientation="Horizontal"
-                                           Width="100"
-                                           HorizontalAlignment="Right"
-                                           VerticalAlignment="Center">
+                                            Width="100"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center">
                                     <TextBox Text="{Binding ObservableCountInStock}"
                                              TextAlignment="Center"
                                              VerticalAlignment="Center"></TextBox>

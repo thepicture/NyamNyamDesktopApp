@@ -29,8 +29,8 @@ namespace NyamNyamDesktopApp.Services
         /// Navigates to the given type with the given constructor argument.
         /// </summary>
         /// <typeparam name="T">The type to navigate to.</typeparam>
-        /// <param name="obj">The constructor argument.</param>
-        void NavigateWithParameter<T>(object obj);
+        /// <param name="param">The constructor argument.</param>
+        void NavigateWithParameters<T>(object param);
         /// <summary>
         /// Pops the peek of the navigation stack.
         /// </summary>

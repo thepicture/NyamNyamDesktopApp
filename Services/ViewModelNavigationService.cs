@@ -37,18 +37,18 @@ namespace NyamNyamDesktopApp.Services
                     return;
                 }
             }
-            NavigateWithParameter<T>(null);
+            NavigateWithParameters<T>(null);
         }
 
-        public void NavigateWithParameter<T>(object obj)
+        public void NavigateWithParameters<T>(object param)
         {
-            if (obj == null)
+            if (param == null)
             {
                 NavigationJournal.Push(Activator.CreateInstance(typeof(T)));
             }
             else
             {
-                NavigationJournal.Push(Activator.CreateInstance(typeof(T), obj));
+                NavigationJournal.Push(Activator.CreateInstance(typeof(T), param));
             }
             SelectedNavigationTarget = NavigationJournal.Peek();
             Navigated?.Invoke();

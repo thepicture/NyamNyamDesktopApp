@@ -9,13 +9,13 @@
           <Key>
             <PropertyRef Name="DishId" />
           </Key>
-          <Property Name="DishId" Type="int" Nullable="false" />
+          <Property Name="DishId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DishName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="BaseServings" Type="tinyint" Nullable="false" />
           <Property Name="CategoryId" Type="int" Nullable="false" />
-          <Property Name="ImagePath" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ImagePath" Type="nvarchar(max)" />
           <Property Name="SourceRecipeLink" Type="nvarchar" MaxLength="1024" Nullable="false" />
-          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="FinalPriceInCents" Type="int" Nullable="false" />
           <Property Name="BinaryImage" Type="varbinary(max)" />
         </EntityType>
@@ -57,7 +57,7 @@
           <Key>
             <PropertyRef Name="StageIngredientId" />
           </Key>
-          <Property Name="StageIngredientId" Type="int" Nullable="false" />
+          <Property Name="StageIngredientId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IngredientId" Type="int" Nullable="false" />
           <Property Name="Quantity" Type="decimal" Precision="20" Scale="2" Nullable="false" />
           <Property Name="UnitId" Type="int" Nullable="false" />
@@ -176,13 +176,13 @@
           <Key>
             <PropertyRef Name="DishId" />
           </Key>
-          <Property Name="DishId" Type="Int32" Nullable="false" />
+          <Property Name="DishId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DishName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="BaseServings" Type="Byte" Nullable="false" />
           <Property Name="CategoryId" Type="Int32" Nullable="false" />
-          <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="SourceRecipeLink" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="FinalPriceInCents" Type="Int32" Nullable="false" />
           <Property Name="BinaryImage" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="DishCategory" Relationship="Self.FK_Dish_DishCategory" FromRole="Dish" ToRole="DishCategory" />
@@ -233,7 +233,7 @@
           <Key>
             <PropertyRef Name="StageIngredientId" />
           </Key>
-          <Property Name="StageIngredientId" Type="Int32" Nullable="false" />
+          <Property Name="StageIngredientId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IngredientId" Type="Int32" Nullable="false" />
           <Property Name="Quantity" Type="Decimal" Precision="20" Scale="2" Nullable="false" />
           <Property Name="UnitId" Type="Int32" Nullable="false" />
