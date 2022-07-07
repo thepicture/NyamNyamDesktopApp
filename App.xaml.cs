@@ -15,6 +15,20 @@ namespace NyamNyamDesktopApp
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            try
+            {
+                using (NyamNyamBaseEntities entities = new NyamNyamBaseEntities())
+                {
+                    entities.Database.Connection.Open();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Cannot connect to the database. " + ex.ToString());
+                Environment.Exit(0);
+                return;
+            }
+
             if (e.Args.Contains("-import"))
             {
                 MessageBoxResult isShouldContinueResult = MessageBox.Show("The app wants to import files in the database. Continue?",
