@@ -2,6 +2,8 @@
 using NyamNyamDesktopApp.Models.Factories;
 using NyamNyamDesktopApp.Services;
 using NyamNyamDesktopApp.ViewsModels;
+using System;
+using System.Linq;
 using System.Windows;
 
 namespace NyamNyamDesktopApp
@@ -13,6 +15,22 @@ namespace NyamNyamDesktopApp
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            if (e.Args.Contains("-import"))
+            {
+                MessageBoxResult isShouldContinueResult = MessageBox.Show("The app wants to import files in the database. Continue?",
+                                                                          "Question",
+                                                                          MessageBoxButton.YesNo,
+                                                                          MessageBoxImage.Question);
+                if (isShouldContinueResult == MessageBoxResult.Yes)
+                {
+                    ImportService.ImportIngredients();
+                    ImportService.ImportDishes();
+                    ImportService.ImportStages();
+                    Environment.Exit(0);
+                    return;
+                }
+            }
+
             base.OnStartup(e);
 
             DependencyService.Register<ViewModelNavigationService>();
